@@ -1,0 +1,36 @@
+/* содать базу данных под админом */
+create database farmacy;
+/* содать под админом пользователя - именно его данные будет внесены для подключения к бд */
+create user dealer with password 'dealer';
+grant all privileges on database farmacy to dealer;
+/*войти в постгрес под dealer */
+psql -h localhost farmacy dealer;
+
+CREATE TABLE IF NOT EXISTS pharmacist (
+ id_pharmacist serial PRIMARY KEY,
+ user_name VARCHAR(45)  NOT NULL UNIQUE,
+ user_password VARCHAR(45)  NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS drug (
+ id_drug serial PRIMARY KEY,
+ drug_name VARCHAR(45)  NOT NULL UNIQUE,
+ price numeric (18,2) NOT NULL,
+ amount numeric (18,3) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS client (
+  id_client serial PRIMARY KEY,
+  name VARCHAR(45) NOT NULL UNIQUE
+);
+
+CREATE TABLE NOT EXISTS order (
+ id_order serial PRIMARY KEY,
+ id_client INT NOT NULL FOREIGN KEY (id_client) REFERENCES client(id_client),
+ id_pharmacist INT NOT NULL FOREIGN KEY (id_pharmacist) REFERENCES pharmacist (id_pharmacist),
+);
+
+CREATE TABLE NOT EXISTS order_items (
+ id_items serial PRIMARY KEY,
+
+);
