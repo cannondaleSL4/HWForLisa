@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS pharmacist (
  user_password VARCHAR(45)  NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS drug (
+CREATE TABLE IF NOT EXISTS drug_store (
  id_drug serial PRIMARY KEY,
  drug_name VARCHAR(45)  NOT NULL UNIQUE,
  price numeric (18,2) NOT NULL,
@@ -35,10 +35,10 @@ CREATE TABLE  IF NOT EXISTS order_items (
  id_items serial PRIMARY KEY,
  id_client INT NOT NULL, FOREIGN KEY (id_client) REFERENCES client (id_client),
  id_pharmacist INT NOT NULL, FOREIGN KEY (id_pharmacist) REFERENCES pharmacist (id_pharmacist),
- id_drug INT NOT NULL, FOREIGN KEY (id_drug) REFERENCES drug (id_drug),
+ id_drug INT NOT NULL, FOREIGN KEY (id_drug) REFERENCES drug_store (id_drug),
  amount numeric (18,3) NOT NULL
 );
 
 
 /* для удаления таблиц */
-drop table client,drug,order_items,order_t,pharmacist;
+drop table client,drug_store,order_items,order_t,pharmacist;
