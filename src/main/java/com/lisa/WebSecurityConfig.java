@@ -13,15 +13,35 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/static/**").permitAll();
-    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
                 .withUser("user").password("password").roles("USER");
+
+        auth
+                .inMemoryAuthentication()
+                .withUser("employee").password("employee").roles("EMPLOYEE");
     }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http
+                .authorizeRequests()
+                .antMatchers("/employee/**").hasRole("EMPLOYEE")
+                .antMatchers("/customer/**").hasRole("USER")
+                .antMatchers("/login*").permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/perform_login")
+                .defaultSuccessUrl("/customer/index.html",true)
+                .failureUrl("/login.html?error=true")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login.html");
+    }
+
 }
