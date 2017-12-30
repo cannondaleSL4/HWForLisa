@@ -15,10 +15,4 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/employee/index.html");
 
     }
-
-
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/resources/static").addResourceLocations("/resources/static/");
-//    }
 }
