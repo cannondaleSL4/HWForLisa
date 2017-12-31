@@ -1,4 +1,4 @@
-package com.lisa;
+package com.lisa.webconfig;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -12,7 +12,11 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/").setViewName("forward:/login");
         registry.addViewController("/login");
         registry.addViewController("/customer/index.html");
-        registry.addViewController("/empolyee/index.html");
+        registry.addViewController("/customer/sale.html");
+        registry.addViewController("/employee/index.html");
+        registry.addViewController("/employee/sale.html");
+        registry.addViewController("/employee/goodsreceipt.html");
+        registry.addViewController("/employee/reports.html");
 
     }
 }

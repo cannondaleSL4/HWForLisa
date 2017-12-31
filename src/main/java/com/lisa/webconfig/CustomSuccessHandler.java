@@ -1,4 +1,4 @@
-package com.lisa;
+package com.lisa.webconfig;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,7 +49,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         if (isUser(roles)) {
             url = "/customer/index.html";
         } else if (isEmployee(roles)) {
-            url = "/empolyee/index.html";
+            url = "/employee/index.html";
         } else {
             url = "/accessDenied";
         }
