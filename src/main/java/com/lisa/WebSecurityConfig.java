@@ -23,27 +23,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         auth
                 .inMemoryAuthentication()
-                .withUser("employee").password("employee").roles("EMPLOYEE");
+                .withUser("12").password("21").roles("EMPLOYEE");
     }
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//
-//        http
-//                .authorizeRequests()
-//                .antMatchers("/employee/**").access("hasRole('EMPLOYEE')")
-//                .antMatchers("/customer/**").access("hasRole('USER')")
-//                .antMatchers("/login*").permitAll()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .loginProcessingUrl("/perform_login")
-//                .defaultSuccessUrl("/customer/index.html",true)
-//                .failureUrl("/login.html?error=true")
-//                .and()
-//                .logout()
-//                .logoutSuccessUrl("/login.html");
-//    }
 
     @Autowired
     private CustomSuccessHandler customSuccessHandler;
