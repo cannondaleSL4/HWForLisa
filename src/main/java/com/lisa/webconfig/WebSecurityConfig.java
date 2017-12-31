@@ -1,7 +1,8 @@
 package com.lisa.webconfig;
 
 import com.lisa.dao.ClientDao;
-import com.lisa.entity.Client;
+import com.lisa.dao.PharmacistDao;
+import com.lisa.entity.Pharmacist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,11 +23,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     ClientDao clientDao;
 
     @Autowired
+    PharmacistDao pharmacistDao;
+
+    @Autowired
     private CustomSuccessHandler customSuccessHandler;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        List<Client> clientList = clientDao.getAllClients();
+        List<Pharmacist> clientList = pharmacistDao.getAllPharmacists();
 
         clientList.forEach(K ->{
             try {
