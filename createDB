@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS drug_store (
 
 CREATE TABLE IF NOT EXISTS client (
   id_client serial PRIMARY KEY,
-  name VARCHAR(45)  NOT NULL UNIQUE,
-  password VARCHAR(45)  NOT NULL,
+  name VARCHAR(45) NOT NULL UNIQUE,
+  password VARCHAR(45) NOT NULL,
   user_group VARCHAR(45) NOT NULL,
   CHECK (user_group IN ('user'))
 );
@@ -43,6 +43,13 @@ CREATE TABLE  IF NOT EXISTS order_items (
  id_drug INT NOT NULL, FOREIGN KEY (id_drug) REFERENCES drug_store (id_drug),
  amount numeric (18,3) NOT NULL
 );
+
+
+/* insert */
+insert into client (name,password,user_group) values ('lisa','1234','user');
+insert into client (name,password,user_group) values ('masha','1234','user');
+insert into client (name,password,user_group) values ('tasha','1234','user');
+insert into client (name,password,user_group) values ('rome','1234','user');
 
 
 /* для удаления таблиц */
