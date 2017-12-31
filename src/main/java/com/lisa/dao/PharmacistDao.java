@@ -1,5 +1,6 @@
 package com.lisa.dao;
 
+import com.lisa.entity.Pharmacist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class PharmacistDao {
 
     final String getAllPharmacist = "Select id_pharmacist,name,password,user_group from pharmacist";
 
-    public List<com.lisa.entity.Pharmacist> getAllPharmacists(){
+    public List<Pharmacist> getAllPharmacists(){
         List<com.lisa.entity.Pharmacist> pharmacists = new ArrayList<>();
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(getAllPharmacist);
         for (Map row : rows){

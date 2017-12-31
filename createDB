@@ -2,7 +2,7 @@
 sudo service postgresql start
 /* содать базу данных под админом */
 create database farmacy;
-/* содать под админом пользователя - именно его данные будет внесены для подключения к бд */
+/* создать под админом пользователя - именно его данные будет внесены для подключения к бд */
 create user dealer with password 'dealer';
 grant all privileges on database farmacy to dealer;
 /*войти в постгрес под dealer */
@@ -16,11 +16,18 @@ CREATE TABLE IF NOT EXISTS pharmacist (
  CHECK (user_group IN ('employee','admin'))
 );
 
-CREATE TABLE IF NOT EXISTS drug_store (
+CREATE TABLE IF NOT EXISTS drug (
  id_drug serial PRIMARY KEY,
- drug_name VARCHAR(45)  NOT NULL UNIQUE,
+ drug_name VARCHAR(45) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS drug_store (
+ id_drug_store serial PRIMARY KEY,
+ id_drug INT NOT NULL, FOREIGN KEY (id_drug) REFERENCES drug(id_drug),
  price numeric (18,2) NOT NULL,
- amount numeric (18,3) NOT NULL
+ amount numeric (18,3) NOT NULL,
+ CHECK (price >= 0),
+ CHECK (amount >= 0)
 );
 
 CREATE TABLE IF NOT EXISTS client (
@@ -40,8 +47,11 @@ CREATE TABLE  IF NOT EXISTS order_items (
  id_items serial PRIMARY KEY,
  id_client INT NOT NULL, FOREIGN KEY (id_client) REFERENCES client (id_client),
  id_pharmacist INT NOT NULL, FOREIGN KEY (id_pharmacist) REFERENCES pharmacist (id_pharmacist),
- id_drug INT NOT NULL, FOREIGN KEY (id_drug) REFERENCES drug_store (id_drug),
- amount numeric (18,3) NOT NULL
+ id_drug INT NOT NULL, FOREIGN KEY (id_drug) REFERENCES drug (id_drug),
+ price numeric (18,2) NOT NULL,
+ amount numeric (18,3) NOT NULL,
+ CHECK (price >= 0),
+ CHECK (amount >= 0)
 );
 
 
@@ -54,11 +64,17 @@ insert into client (name,password,user_group) values ('rome','1234','user');
 insert into pharmacist (name,password,user_group) values ('saller1','1234','employee');
 insert into pharmacist (name,password,user_group) values ('saller2','1234','employee');
 
-insert into drug_store (drug_name,price,amount) values ('Allegra',15.40, 500.00);
-insert into drug_store (drug_name,price,amount) values ('Concerta',10.00, 45.00);
-insert into drug_store (drug_name,price,amount) values ('Latisse',100.00, 181.00);
-insert into drug_store (drug_name,price,amount) values ('Levitra',28.30, 15.30);
-insert into drug_store (drug_name,price,amount) values ('Lexapro',112.11, 100);
+insert into drug (drug_name) values('Allegra');
+insert into drug (drug_name) values('Concerta');
+insert into drug (drug_name) values('Latisse');
+insert into drug (drug_name) values('Levitra');
+insert into drug (drug_name) values('Lexapro');
+
+insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Allegra'),15.40, 500);
+insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Concerta'),10.00, 45);
+insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Latisse'),100.00, 181);
+insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Levitra'),28.30, 15.30);
+insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Lexapro'),112.11, 100);
 
 /* для удаления таблиц */
-drop table client,drug_store,order_items,order_t,pharmacist;
+drop table client,drug,drug_store,order_items,order_t,pharmacist;
