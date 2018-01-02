@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,7 +14,6 @@ import java.util.Map;
 /**
  * Created by dima on 02.01.18.
  */
-@Entity
 @Getter
 @Builder
 @AllArgsConstructor
