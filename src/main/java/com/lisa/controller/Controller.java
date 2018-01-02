@@ -3,9 +3,11 @@ package com.lisa.controller;
 import com.lisa.dao.ClientDao;
 import com.lisa.dao.DrugDao;
 import com.lisa.dao.DrugStroteDao;
+import com.lisa.dao.PharmacistDao;
 import com.lisa.entity.Client;
 import com.lisa.entity.Drug;
 import com.lisa.entity.DrugStore;
+import com.lisa.entity.Pharmacist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,10 +28,18 @@ public class Controller {
     @Autowired
     DrugStroteDao drugStore;
 
+    @Autowired
+    PharmacistDao pharmacistDao;
+
 
     @RequestMapping("/client/all")
     List<Client>getAllClients(){
         return clientDao.getAllClients();
+    }
+
+    @RequestMapping("/pharmacist/all")
+    List<Pharmacist>getAllPharmacists(){
+        return pharmacistDao.getAllPharmacists();
     }
 
     @RequestMapping("/drug/all")
@@ -41,4 +51,8 @@ public class Controller {
     List<DrugStore>getAllDrugStore(){
         return drugStore.getAllDrug();
     }
+
+
+
+
 }

@@ -2,6 +2,7 @@ package com.lisa.dao;
 
 import com.lisa.entity.Pharmacist;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +18,12 @@ public class PharmacistDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    final String getAllPharmacist = "SELECT id_pharmacist,name,password,user_group FROM pharmacist";
+    final String getAllPharmacistStr = "SELECT id_pharmacist,name,password,user_group FROM pharmacist";
+    final String getPharmacistByIdStr = "SELECT * FROM pharmacist WHERE id_pharmacist =?";
 
     public List<Pharmacist> getAllPharmacists(){
         List<com.lisa.entity.Pharmacist> pharmacists = new ArrayList<>();
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(getAllPharmacist);
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(getAllPharmacistStr);
         for (Map row : rows){
             pharmacists.add(com.lisa.entity.Pharmacist.builder()
                     .id_pharmacist((Integer) row.get("id_pharmacist"))
@@ -32,6 +34,10 @@ public class PharmacistDao {
             );
         }
         return pharmacists;
+    }
+
+    public String getPharmasist(Integer id){
+        return jdbcTemplate.queryForObject(getPharmacistByIdStr,new Object[]{id}, new BeanPropertyRowMapper<>(Pharmacist.class)).getName();
     }
 
 }
