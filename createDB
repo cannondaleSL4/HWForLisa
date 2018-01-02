@@ -40,20 +40,37 @@ CREATE TABLE IF NOT EXISTS client (
 
 CREATE TABLE IF NOT EXISTS order_t (
  id_order serial PRIMARY KEY,
- id_client INT NOT NULL, FOREIGN KEY (id_client) REFERENCES client(id_client)
+ id_client INT NOT NULL, FOREIGN KEY (id_client) REFERENCES client(id_client),
+ id_pharmacist INT, FOREIGN KEY (id_pharmacist) REFERENCES pharmacist(id_pharmacist)
 );
 
 CREATE TABLE  IF NOT EXISTS order_items (
  id_items serial PRIMARY KEY,
- id_client INT NOT NULL, FOREIGN KEY (id_client) REFERENCES client (id_client),
- id_pharmacist INT NOT NULL, FOREIGN KEY (id_pharmacist) REFERENCES pharmacist (id_pharmacist),
  id_drug INT NOT NULL, FOREIGN KEY (id_drug) REFERENCES drug (id_drug),
+ id_order INT NOT NULL, FOREIGN KEY (id_order) REFERENCES order_t (id_order),
  price numeric (18,2) NOT NULL,
- amount numeric (18,3) NOT NULL,
- CHECK (price >= 0),
- CHECK (amount >= 0)
+ amount numeric (18,3) NOT NULL
 );
 
+CREATE FUNCTION get_price(id INT)
+RETURNS numeric (18,2)
+AS $$
+BEGIN
+RETURN (SELECT price FROM drug_store WHERE id_drug = id );
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION get_amount(id INT)
+RETURNS numeric (18,3)
+AS $$
+BEGIN
+RETURN (SELECT amount FROM drug_store WHERE id_drug = id );
+END;
+$$ LANGUAGE plpgsql;
+
+ALTER TABLE order_items
+ADD CONSTRAINT check_price CHECK(price = get_price(id_drug)),
+ADD CONSTRAINT check_amount CHECK(amount >0 AND amount <= get_amount(id_drug));
 
 /* insert */
 insert into client (name,password,user_group) values ('lisa','1234','user');

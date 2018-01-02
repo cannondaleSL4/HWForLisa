@@ -17,7 +17,7 @@ public class DrugDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    final String getAllDrug = "Select id_drug,drug_name from drug";
+    final String getAllDrug = "SELECT id_drug,drug_name FROM drug";
 
     public List<Drug> getAllDrug(){
         List<Drug> drugList = new ArrayList<>();

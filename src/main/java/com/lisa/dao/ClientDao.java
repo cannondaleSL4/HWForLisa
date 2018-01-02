@@ -17,7 +17,7 @@ public class ClientDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    final String getAllClient = "Select id_client,name,password,user_group from client";
+    final String getAllClient = "SELECT id_client,name,password,user_group FROM client";
 
     public List<Client> getAllClients(){
         List<Client> clients = new ArrayList<>();

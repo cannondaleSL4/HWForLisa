@@ -17,7 +17,7 @@ public class PharmacistDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    final String getAllPharmacist = "Select id_pharmacist,name,password,user_group from pharmacist";
+    final String getAllPharmacist = "SELECT id_pharmacist,name,password,user_group FROM pharmacist";
 
     public List<Pharmacist> getAllPharmacists(){
         List<com.lisa.entity.Pharmacist> pharmacists = new ArrayList<>();
