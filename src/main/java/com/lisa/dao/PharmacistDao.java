@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by dima on 31.12.17.
@@ -18,27 +17,24 @@ public class PharmacistDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    final String getAllPharmacistStr = "SELECT id_pharmacist,name,password,user_group FROM pharmacist";
+    final String SELECT_ALL = "SELECT id_pharmacist,name,password,user_group FROM pharmacist";
     final String getPharmacistByIdStr = "SELECT * FROM pharmacist WHERE id_pharmacist =?";
 
     public List<Pharmacist> getAllPharmacists(){
         List<com.lisa.entity.Pharmacist> pharmacists = new ArrayList<>();
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(getAllPharmacistStr);
-        for (Map row : rows){
+        jdbcTemplate.queryForList(SELECT_ALL).forEach(K ->{
             pharmacists.add(com.lisa.entity.Pharmacist.builder()
-                    .id_pharmacist((Integer) row.get("id_pharmacist"))
-                    .name((String) row.get("name"))
-                    .password((String) row.get("password"))
-                    .user_group((String)row.get("user_group"))
+                    .id_pharmacist((Integer) K.get("id_pharmacist"))
+                    .name((String) K.get("name"))
+                    .password((String) K.get("password"))
+                    .user_group((String)K.get("user_group"))
                     .build()
             );
-        }
+        });
         return pharmacists;
     }
 
     public Object getPharmasist(Integer id){
-
-        //ResultSet resultSet = ResultSet();
         return jdbcTemplate.queryForObject(getPharmacistByIdStr,new Object[]{id}, new PharmacyMapper());
     }
 
