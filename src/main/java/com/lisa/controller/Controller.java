@@ -9,6 +9,7 @@ import com.lisa.entity.Drug;
 import com.lisa.entity.DrugStore;
 import com.lisa.entity.Pharmacist;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,6 +41,11 @@ public class Controller {
     @RequestMapping("/pharmacist/all")
     List<Pharmacist>getAllPharmacists(){
         return pharmacistDao.getAllPharmacists();
+    }
+
+    @RequestMapping("/pharmacist/{id}")
+    Pharmacist getPharmacist(@PathVariable("id")Integer id){
+        return (Pharmacist) pharmacistDao.getPharmasist(id);
     }
 
     @RequestMapping("/drug/all")

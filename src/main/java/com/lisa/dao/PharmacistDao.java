@@ -1,8 +1,8 @@
 package com.lisa.dao;
 
 import com.lisa.entity.Pharmacist;
+import com.lisa.rowMappers.PharmacyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +36,10 @@ public class PharmacistDao {
         return pharmacists;
     }
 
-    public String getPharmasist(Integer id){
-        return jdbcTemplate.queryForObject(getPharmacistByIdStr,new Object[]{id}, new BeanPropertyRowMapper<>(Pharmacist.class)).getName();
+    public Object getPharmasist(Integer id){
+
+        //ResultSet resultSet = ResultSet();
+        return jdbcTemplate.queryForObject(getPharmacistByIdStr,new Object[]{id}, new PharmacyMapper());
     }
 
 }
