@@ -59,7 +59,9 @@ public class Controller {
         return drugStore.getAllDrug();
     }
 
+    @RequestMapping(value ="/sale", method = RequestMethod.POST)
+    void sale(){
 
-
+    }
 
 }

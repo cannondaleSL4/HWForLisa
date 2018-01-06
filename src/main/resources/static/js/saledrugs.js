@@ -13,16 +13,18 @@ $(document).ready(function () {
                 '<th scope="col">Drug\'s name</th>' +
                 '<th scope="col">Amount</th>' +
                 '<th scope="col">Price</th>' +
+                '<th scope="col">Amount for sale</th>' +
                 '</tr>' +
                 '</thead>' +
-                '<tbody>'
+                '<tbody>';
             for(var k in json){
                 table += '<tr><th scope="row">'+ (row_count++) + '</th>' + '<td>' + json[k].drug_name + '</td>' +
                     '<td>' + json[k].amount + '</td>' +
                     '<td>' + json[k].price+ '</td>' +
+                    '<td>' +'<div class="number"> <span class="minus">-</span> <input type="text" value="1" size="5"/> <span class="plus">+</span></div>'+ '</td>' +
                     '</tr>'
             }
-            table += '</tbody>'
+            table += '</tbody>';
             $('table').append(table);
         });
 });
