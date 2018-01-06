@@ -32,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         List<Users> userList = pharmacistDao.getAllPharmacists();
+        userList.addAll(clientDao.getAllClients());
 
         userList.forEach(K ->{
             try {
