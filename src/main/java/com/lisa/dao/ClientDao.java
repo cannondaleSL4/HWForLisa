@@ -25,10 +25,10 @@ public class ClientDao {
         List<Users> clients = new ArrayList<>();
         jdbcTemplate.queryForList(SELECT_ALL).forEach(K ->{
             clients.add(Client.builder()
-                    .id_client((Integer) K.get("id_client"))
-//                    .name((String) K.get("name"))
-//                    .password((String) K.get("password"))
-//                    .user_group((String)K.get("user_group"))
+                    .id((Integer) K.get("id_client"))
+                    .name((String) K.get("name"))
+                    .password((String) K.get("password"))
+                    .user_group((String)K.get("user_group"))
                     .build()
             );
         });
