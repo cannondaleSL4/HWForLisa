@@ -1,6 +1,6 @@
 package com.lisa.entity;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,23 +14,23 @@ import javax.persistence.Id;
  * Created by dima on 31.12.17.
  */
 @Entity
-@Getter
-@Builder
-@AllArgsConstructor
+@Getter(AccessLevel.PROTECTED)
 @NoArgsConstructor
-public class Pharmacist {
+public class Pharmacist extends Users {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id_pharmacist;
+    private Integer id;
 
-    private String name;
-    private String password;
-    private String user_group;
+    @Builder
+    public Pharmacist(String name, String password,String user_group, Integer id){
+        super(name, password, user_group);
+        this.id = id;
+    }
 
     @Override
     public String toString() {
         return String.format(
                 "Client[id=%d, name='%s', password='%s']",
-                id_pharmacist, name, password);
+                id, name, password);
     }
 }
