@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS drug_store (
  id_drug_store serial PRIMARY KEY,
  id_drug INT NOT NULL, FOREIGN KEY (id_drug) REFERENCES drug(id_drug),
  price numeric (18,2) NOT NULL,
- amount numeric (18,3) NOT NULL,
+ amount int  NOT NULL,
  CHECK (price >= 0),
  CHECK (amount >= 0)
 );
@@ -49,7 +49,7 @@ CREATE TABLE  IF NOT EXISTS order_items (
  id_drug INT NOT NULL, FOREIGN KEY (id_drug) REFERENCES drug (id_drug),
  id_order INT NOT NULL, FOREIGN KEY (id_order) REFERENCES order_t (id_order),
  price numeric (18,2) NOT NULL,
- amount numeric (18,3) NOT NULL
+ amount int NOT NULL
 );
 
 CREATE FUNCTION get_price(id INT)
@@ -61,7 +61,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION get_amount(id INT)
-RETURNS numeric (18,3)
+RETURNS int
 AS $$
 BEGIN
 RETURN (SELECT amount FROM drug_store WHERE id_drug = id );
@@ -87,11 +87,11 @@ insert into drug (drug_name) values('Latisse');
 insert into drug (drug_name) values('Levitra');
 insert into drug (drug_name) values('Lexapro');
 
-insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Allegra'),15.40, 500);
-insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Concerta'),10.00, 45);
-insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Latisse'),100.00, 181);
-insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Levitra'),28.30, 15.30);
-insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Lexapro'),112.11, 100);
+insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Allegra'),15, 500);
+insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Concerta'),10, 45);
+insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Latisse'),100, 181);
+insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Levitra'),28, 15.30);
+insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Lexapro'),112, 100);
 
 /* для удаления таблиц */
-drop table client,drug,drug_store,order_items,order_t,pharmacist;
+drop table client,drug,drug_store,order_items,order_t,pharmacist cascade;

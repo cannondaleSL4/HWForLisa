@@ -18,10 +18,11 @@ $(document).ready(function () {
                 '</thead>' +
                 '<tbody>';
             for(var k in json){
+                var max =  +json[k].amount;
                 table += '<tr><th scope="row">'+ (row_count++) + '</th>' + '<td>' + json[k].drug_name + '</td>' +
                     '<td>' + json[k].amount + '</td>' +
                     '<td>' + json[k].price+ '</td>' +
-                    '<td>' +'<div class="number"> <span class="minus">-</span> <input type="text" value="1" size="5"/> <span class="plus">+</span></div>'+ '</td>' +
+                    '<td>' +'<input type="number" value="0" min="0" max="' + max + '"/> '+ '</td>' +
                     '</tr>'
             }
             table += '</tbody>';

@@ -1,13 +1,7 @@
 package com.lisa.controller;
 
-import com.lisa.dao.ClientDao;
-import com.lisa.dao.DrugDao;
-import com.lisa.dao.DrugStroteDao;
-import com.lisa.dao.PharmacistDao;
-import com.lisa.entity.Drug;
-import com.lisa.entity.DrugStore;
-import com.lisa.entity.Pharmacist;
-import com.lisa.entity.Users;
+import com.lisa.dao.*;
+import com.lisa.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +27,9 @@ public class Controller {
     @Autowired
     PharmacistDao pharmacistDao;
 
+    @Autowired
+    OrderDao orderDao;
+
 
     @RequestMapping("/client/all")
     List<Users>getAllClients(){
@@ -57,6 +54,11 @@ public class Controller {
     @RequestMapping("/drugstore/all")
     List<DrugStore>getAllDrugStore(){
         return drugStore.getAllDrug();
+    }
+
+    @RequestMapping("orders/all")
+    List<Order> getAllOrders(){
+        return orderDao.getAllorders();
     }
 
     @RequestMapping(value ="/sale", method = RequestMethod.POST)

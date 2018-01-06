@@ -1,5 +1,6 @@
 package com.lisa.entity;
 
+import javafx.util.Pair;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,5 +27,5 @@ public class Order {
     private String clientName;
     private String pharmasyName;
 
-    private Map<Drug,Map.Entry<BigDecimal,BigDecimal>> sells; // first bigdemical is amount and second is price
+    private Map<Drug,Pair<Integer,BigDecimal>> sells; // first is Integer amount and second is price
 }

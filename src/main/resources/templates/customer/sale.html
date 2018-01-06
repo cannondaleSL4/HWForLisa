@@ -12,27 +12,34 @@
 
     <!-- Custom styles for this template -->
     <link href="../static/css/justified-nav.css" th:href="@{/css/justified-nav.css}" type="text/css" rel="stylesheet" />
+    <!--<link href="../static/css/plusminus.css" th:href="@{/css/plusminus.css}" type="text/css" rel="stylesheet" />-->
 
-    <style type="text/css">
-        span {cursor:pointer; }
-        .number{
-            display:inline-block;
-        }
-        .minus, .plus{
-            width:10px;
-            height:10px;
-            background:#f2f2f2;
-            border-radius:4px;
-            padding:3px 5px 3px 5px;
-            border:1px solid #ddd;
-        }
-        input{
-            height:20px;
-            border:1px solid #ddd;
-            border-radius:4px;
-            padding:0 2px;
-        }
-    </style>
+    <script src="../static/js/jquery-3.2.1.min.js" type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <!--<script src="../static/js/plusminus.js" type="text/javascript" th:src="@{/js/plusminus.js}"></script>-->
+    <script src="../static/js/saledrugs.js" type="text/javascript" th:src="@{/js/saledrugs.js}"></script>
+    <script src="../static/js/bootstrap.min.js" type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+
+    <!--<script th:inline="javascript" >-->
+        <!--/*<![CDATA[*/-->
+        <!--$(document).ready(function() {-->
+            <!--$('.minus').click(function () {-->
+                <!--var $input = $(this).parent().find('input');-->
+                <!--var count = parseInt($input.val()) - 1;-->
+                <!--count = count < 0 ? 0 : count;-->
+                <!--$input.val(count);-->
+                <!--$input.change();-->
+                <!--return false;-->
+            <!--});-->
+            <!--$('.plus').click(function () {-->
+                <!--var $input = $(this).parent().find('input');-->
+                <!--$input.val(parseInt($input.val()) + 1);-->
+                <!--$input.change();-->
+                <!--return false;-->
+            <!--});-->
+        <!--});-->
+        <!--/*]]>*/-->
+    <!--</script>-->
 
 
 </head>
@@ -64,6 +71,7 @@
         <form class="customer_sale" th:action="@{/sale}" method="post">
             <table class="table">
             </table>
+            <input type="submit" value="Submit" />
         </form>
     </main>
 
@@ -73,10 +81,5 @@
     </footer>
 
 </div>
-
-<script src="../static/js/jquery-3.2.1.min.js" type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
-<script src="../static/js/plusminus.js" type="text/javascript" th:src="@{/js/plusminus.js}"></script>
-<script src="../static/js/saledrugs.js" type="text/javascript" th:src="@{/js/saledrugs.js}"></script>
-<script src="../static/js/bootstrap.min.js" type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 </body>
 </html>
