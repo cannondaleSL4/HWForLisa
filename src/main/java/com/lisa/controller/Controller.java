@@ -4,10 +4,14 @@ import com.lisa.dao.ClientDao;
 import com.lisa.dao.DrugDao;
 import com.lisa.dao.DrugStroteDao;
 import com.lisa.dao.PharmacistDao;
-import com.lisa.entity.*;
+import com.lisa.entity.Drug;
+import com.lisa.entity.DrugStore;
+import com.lisa.entity.Pharmacist;
+import com.lisa.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -45,7 +49,7 @@ public class Controller {
         return (Pharmacist) pharmacistDao.getPharmasist(id);
     }
 
-    @RequestMapping("/drug/all")
+    @RequestMapping(value ="/drug/all", method = RequestMethod.GET)
     List<Drug>getAllDrugs(){
         return drugDao.getAllDrug();
     }
