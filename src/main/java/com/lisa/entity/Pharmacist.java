@@ -19,18 +19,18 @@ import javax.persistence.Id;
 public class Pharmacist extends Users {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer id_pharmacist;
 
     @Builder
     public Pharmacist(String name, String password,String user_group, Integer id){
         super(name, password, user_group);
-        this.id = id;
+        this.id_pharmacist = id;
     }
 
     @Override
     public String toString() {
         return String.format(
                 "Client[id=%d, name='%s', password='%s']",
-                id, name, password);
+                id_pharmacist, name, password);
     }
 }

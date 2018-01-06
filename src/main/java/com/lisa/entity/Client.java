@@ -19,18 +19,18 @@ import javax.persistence.Id;
 public class Client extends Users {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer id_client;
 
     @Builder
     public Client(String name, String password,String user_group, Integer id){
         super(name, password, user_group);
-        this.id = id;
+        this.id_client = id;
     }
 
     @Override
     public String toString() {
         return String.format(
                 "Client[id=%d, name='%s', password='%s']",
-                id, name, password);
+                id_client, name, password);
     }
 }
