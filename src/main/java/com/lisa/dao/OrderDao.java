@@ -27,15 +27,20 @@ public class OrderDao {
     @Autowired
     DrugDao drugDao;
 
-    String getAllOrdersStr = "SELECT order_t.id_order AS Number_of_Order, client.name AS Client,pharmacist.name AS Pharmacist " +
-            "FROM order_t INNER JOIN client ON order_t.id_client = client.id_client " +
-            "INNER JOIN pharmacist ON order_t.id_pharmacist = pharmacist.id_pharmacist";
+    final String GET_ALL_ORDER = "SELECT  order_t.id_order,client.name,pharmacist.name,order_items.id_drug,order_items.price,order_items.amount " +
+            "FROM order_t " +
+            "INNER JOIN client ON " +
+            "order_t.id_client = client.id_client " +
+            "INNER JOIN pharmacist ON " +
+            "order_t.id_pharmacist = pharmacist.id_pharmacist " +
+            "INNER JOIN order_items ON " +
+            "order_t.id_order = order_items.id_order ";
 
     public List<Order> getAllorders(){
         List<Order> ordersList = new ArrayList<>();
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(getAllOrdersStr);
+        HashMap<Drug,Pair<Integer, BigDecimal>> mapForAdd = new HashMap<>();
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(GET_ALL_ORDER);
         rows.forEach(K ->{
-            HashMap<Drug,Pair<Integer, BigDecimal>> mapForAdd = new HashMap<>();
             Pair<Integer,BigDecimal> entryForAdd = new Pair<Integer,BigDecimal>((Integer)K.get("amount"),(BigDecimal) K.get("price"));
             mapForAdd.put(drugDao.getDrugById((Integer) K.get("id_drug")),entryForAdd);
             ordersList.add(
