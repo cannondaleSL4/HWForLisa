@@ -171,22 +171,41 @@ insert into
   );
 UPDATE drug_store SET amount = amount - 15 WHERE id_drug = (SELECT id_drug FROM drug where drug_name = 'Latisse');
 
+/*
+третий заказ
+*/
+insert into order_t (id_client,id_pharmacist) values ((SELECT id_client from client where name ='masha'),(Select id_pharmacist from pharmacist where name = 'saller2'));
+insert into
+ order_items (id_order,id_drug,price,amount)
+  values (
+  (
+  SELECT id_order from order_t WHERE id_client  = (SELECT id_client from client where name ='masha') AND id_pharmacist = (SELECT id_pharmacist from pharmacist where name = 'saller2') ORDER BY date DESC NULLS LAST LIMIT 1
+  ),
+  (
+  SELECT id_drug from drug where drug_name = 'Concerta'
+  ),
+  (
+  SELECT price from drug_store where id_drug =(SELECT id_drug from drug where drug_name = 'Concerta')
+  ),
+  2
+  );
+UPDATE drug_store SET amount = amount - 2 WHERE id_drug = (SELECT id_drug FROM drug where drug_name = 'Concerta');
 
-
-
-insert into order_t (id_client,id_pharmacist) values ((SELECT id_client from client where name ='lisa'),(Select id_pharmacist from pharmacist where name = 'saller1')));
-
-
-
-insert into order_t (id_client,id_pharmacist) values ((SELECT id_client from client where name ='masha'),(Select id_pharmacist from pharmacist where name = 'saller1')));
-
-
-
-insert into order_t (id_client,id_pharmacist) values ((SELECT id_client from client where name ='tasha'),(Select id_pharmacist from pharmacist where name = 'saller2'));
-
-
-
-insert into order_t (id_client,id_pharmacist) values ((SELECT id_client from client where name ='rome'),(null));
+insert into
+ order_items (id_order,id_drug,price,amount)
+  values (
+  (
+  SELECT id_order from order_t WHERE id_client  = (SELECT id_client from client where name ='masha') AND id_pharmacist = (SELECT id_pharmacist from pharmacist where name = 'saller2') ORDER BY date DESC NULLS LAST LIMIT 1
+  ),
+  (
+  SELECT id_drug from drug where drug_name = 'Levitra'
+  ),
+  (
+  SELECT price from drug_store where id_drug =(SELECT id_drug from drug where drug_name = 'Levitra')
+  ),
+  1
+  );
+UPDATE drug_store SET amount = amount - 1 WHERE id_drug = (SELECT id_drug FROM drug where drug_name = 'Levitra');
 
 
 /* для удаления таблиц */
