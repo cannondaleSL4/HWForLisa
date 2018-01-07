@@ -9,7 +9,7 @@ $(document).ready(function () {
         '/orders/all',
         function (json) {
             var row_count = 1;
-            var table = '<caption>List of drugs in our farmacy</caption>' +
+            var table = '<caption>All orders</caption>' +
                 '<thead>' +
                 '<tr>' +
                 '<th scope="col">#</th>' +
@@ -19,6 +19,7 @@ $(document).ready(function () {
                 '<th scope="col">Drug\'s name</th>' +
                 '<th scope="col">Amount</th>' +
                 '<th scope="col">Price</th>' +
+                '<th scope="col">Summ</th>'+
                 '</tr>' +
                 '</thead>' +
                 '<tbody>'
@@ -26,14 +27,29 @@ $(document).ready(function () {
                 table += '<tr><th scope="row">'+ (row_count++) + '</th>' +
                     '<td>' + json[k].id_order + '</td>' +
                     '<td>' + json[k].clientName + '</td>'
-                        if(json[k].pharmasyName == 'default'){
-                            table +='<td>' + '</td>'
-                        }else{
-                            table +='<td>' + json[k].pharmasyName+ '</td>'
-                        }
-                        var pair = json[k].sells;
-                        alert(pair);
+                    if(json[k].pharmasyName == 'default'){
+                        table +='<td>' + '</td>'
+                    }else{
+                        table +='<td>' + json[k].pharmasyName+ '</td>'
+                    }
 
+                var map = json[0].sells;
+                var count = 0;
+                var summ = 0;
+                for(i in map){
+                    if (count !=0 ){
+                        summ += map[i].key * map[i].value;
+                        table +='</tr><tr><td></td><td></td><td></td><td></td>'+'<td>' +i.split(/'/)[1] + '<td>' +map[i].key+ '</td><td>' +map[i].value +'</td><td>'+(map[i].key * map[i].value)+'</td>';
+                    }else{
+                        summ += map[i].key * map[i].value;
+                        table +='<td>' +i.split(/'/)[1] + '<td>' +map[i].key+ '</td><td>' +map[i].value +'</td><td>'+(map[i].key * map[i].value)+'</td>';
+                    }
+
+                    if(count == Object.keys(map).length - 1){
+                        table +='</tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>' +summ + '</td>';
+                    }
+                    count++;
+                }
 
                 table +='</tr>'
             }
