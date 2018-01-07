@@ -32,7 +32,7 @@ public class DrugStroteDao {
                     DrugStore.builder()
                             .id_drug_store((Integer) K.get("id_drug_store"))
                             .drug_name((String) K.get("drug_name"))
-                            .amount((BigDecimal) K.get("amount"))
+                            .amount((Integer) K.get("amount"))
                             .price((BigDecimal) K.get("price"))
                             .build()
             );

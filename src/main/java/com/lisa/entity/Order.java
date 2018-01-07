@@ -6,9 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -19,13 +17,16 @@ import java.util.Map;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "order_t")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id_items;
+    private Integer id_order;
 
     private String clientName;
     private String pharmasyName;
 
+    @ElementCollection
     private Map<Drug,Pair<Integer,BigDecimal>> sells; // first is Integer amount and second is price
 }

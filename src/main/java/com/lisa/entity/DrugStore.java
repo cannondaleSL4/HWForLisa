@@ -26,7 +26,7 @@ public class DrugStore {
 
     private String drug_name;
     private BigDecimal price;
-    private BigDecimal amount;
+    private Integer amount;
 
     @Override
     public String toString() {
