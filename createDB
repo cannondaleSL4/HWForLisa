@@ -41,13 +41,14 @@ CREATE TABLE IF NOT EXISTS client (
 CREATE TABLE IF NOT EXISTS order_t (
  id_order serial PRIMARY KEY,
  id_client INT NOT NULL, FOREIGN KEY (id_client) REFERENCES client(id_client),
- id_pharmacist INT, FOREIGN KEY (id_pharmacist) REFERENCES pharmacist(id_pharmacist)
+ id_pharmacist INT, FOREIGN KEY (id_pharmacist) REFERENCES pharmacist(id_pharmacist),
+ date TIMESTAMP NOT NULL DEFAULT (NOW())
 );
 
 CREATE TABLE  IF NOT EXISTS order_items (
  id_items serial PRIMARY KEY,
- id_drug INT NOT NULL, FOREIGN KEY (id_drug) REFERENCES drug (id_drug),
  id_order INT NOT NULL, FOREIGN KEY (id_order) REFERENCES order_t (id_order),
+ id_drug INT NOT NULL, FOREIGN KEY (id_drug) REFERENCES drug (id_drug),
  price numeric (18,2) NOT NULL,
  amount int NOT NULL
 );
@@ -93,5 +94,66 @@ insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug 
 insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Levitra'),28, 15.30);
 insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Lexapro'),112, 100);
 
+insert into order_t (id_client,id_pharmacist) values ((SELECT id_client from client where name ='lisa'),(null));
+insert into
+ order_items (id_order,id_drug,price,amount)
+  values (
+  (
+  SELECT id_order from order_t WHERE id_client  = (SELECT id_client from client where name ='lisa') ORDER BY date DESC NULLS LAST LIMIT 1
+  ),
+  (
+  SELECT id_drug from drug where drug_name = 'Allegra'
+  ),
+  (
+  SELECT price from drug_store where id_drug =(SELECT id_drug from drug where drug_name = 'Allegra')
+  ),
+  10
+  );
+UPDATE drug_store SET amount = amount - 10 WHERE id_drug = (SELECT id_drug FROM drug where drug_name = 'Allegra');
+
+insert into
+ order_items (id_order,id_drug,price,amount)
+  values (
+  (
+  SELECT id_order from order_t WHERE id_client  = (SELECT id_client from client where name ='lisa') ORDER BY date DESC NULLS LAST LIMIT 1
+  ),
+  (
+  SELECT id_drug from drug where drug_name = 'Latisse'
+  ),
+  (
+  SELECT price from drug_store where id_drug =(SELECT id_drug from drug where drug_name = 'Latisse')
+  ),
+  15
+  );
+UPDATE drug_store SET amount = amount - 15 WHERE id_drug = (SELECT id_drug FROM drug where drug_name = 'Latisse');
+
+
+
+
+
+
+insert into order_t (id_client,id_pharmacist) values ((SELECT id_client from client where name ='lisa'),(Select id_pharmacist from pharmacist where name = 'saller1'));
+
+
+insert into order_t (id_client,id_pharmacist) values ((SELECT id_client from client where name ='lisa'),(Select id_pharmacist from pharmacist where name = 'saller1')));
+
+
+
+insert into order_t (id_client,id_pharmacist) values ((SELECT id_client from client where name ='masha'),(Select id_pharmacist from pharmacist where name = 'saller1')));
+
+
+
+insert into order_t (id_client,id_pharmacist) values ((SELECT id_client from client where name ='tasha'),(Select id_pharmacist from pharmacist where name = 'saller2'));
+
+
+
+insert into order_t (id_client,id_pharmacist) values ((SELECT id_client from client where name ='rome'),(null));
+
+
 /* для удаления таблиц */
 drop table client,drug,drug_store,order_items,order_t,pharmacist cascade;
+
+
+/*
+and id_pharmacist = (SELECT id_pharmacist from pharmacist where name = 'null' )
+*/

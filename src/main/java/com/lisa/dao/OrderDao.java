@@ -27,7 +27,7 @@ public class OrderDao {
     @Autowired
     DrugDao drugDao;
 
-    String getAllOrdersStr = "SELECT order_t.id_order AS Number_of_Order,client.name AS Client,pharmacist.name AS Pharmacist " +
+    String getAllOrdersStr = "SELECT order_t.id_order AS Number_of_Order, client.name AS Client,pharmacist.name AS Pharmacist " +
             "FROM order_t INNER JOIN client ON order_t.id_client = client.id_client " +
             "INNER JOIN pharmacist ON order_t.id_pharmacist = pharmacist.id_pharmacist";
 
