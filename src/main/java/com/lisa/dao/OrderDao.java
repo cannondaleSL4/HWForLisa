@@ -45,21 +45,34 @@ public class OrderDao {
         List<Order> ordersList = new ArrayList<>();
         HashMap<Drug,Pair<Integer, BigDecimal>> mapForAdd = new HashMap<>();
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(GET_ALL_ORDER);
-        rows.forEach(K ->{
-            System.out.println(K);
-            Pair<Integer,BigDecimal> entryForAdd = new Pair<Integer,BigDecimal>((Integer)K.get("amount"),(BigDecimal) K.get("price"));
-            Pharmacist pharmacist = (Pharmacist)pharmacistDao.getPharmasist((Integer)K.get("id_pharmacist"));
-            Client client = (Client)clientDao.getClient((Integer)K.get("id_client"));
-            mapForAdd.put(drugDao.getDrugById((Integer) K.get("id_drug")),entryForAdd);
-            ordersList.add(
-                    Order.builder()
-                            .id_order((Integer) K.get("id_order"))
-                            .clientName(client.getName())
-                            .pharmasyName(pharmacist.getName())
-                            .sells(mapForAdd)
-                            .build()
-            );
-        });
+        Integer count = 0;
+        Integer num = 0;
+
+        for(Map<String,Object> localmap : rows){
+            Pharmacist pharmacist;
+            Client client;
+            Pair<Integer,BigDecimal> entryForAdd;
+            num = (Integer) localmap.get("id_order");
+
+            pharmacist = (Pharmacist)pharmacistDao.getPharmasist((Integer)localmap.get("id_pharmacist"));
+            client = (Client)clientDao.getClient((Integer)localmap.get("id_client"));
+            entryForAdd = new Pair<Integer,BigDecimal>((Integer)localmap.get("amount"),(BigDecimal) localmap.get("price"));
+
+            if(!count.equals(num)){
+                mapForAdd.clear();
+                mapForAdd.put(drugDao.getDrugById((Integer) localmap.get("id_drug")),entryForAdd);
+                Order order = Order.builder()
+                        .id_order(num)
+                        .clientName(client.getName())
+                        .pharmasyName(pharmacist.getName())
+                        .sells(mapForAdd)
+                        .build();
+                ordersList.add(order);
+            }else{
+                mapForAdd.put(drugDao.getDrugById((Integer) localmap.get("id_drug")),entryForAdd);
+            }
+            count = num;
+        }
         return ordersList;
     }
 }

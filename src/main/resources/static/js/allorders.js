@@ -25,9 +25,17 @@ $(document).ready(function () {
             for(var k in json){
                 table += '<tr><th scope="row">'+ (row_count++) + '</th>' +
                     '<td>' + json[k].id_order + '</td>' +
-                    '<td>' + json[k].amount + '</td>' +
-                    '<td>' + json[k].price+ '</td>' +
-                    '</tr>'
+                    '<td>' + json[k].clientName + '</td>'
+                        if(json[k].pharmasyName == 'default'){
+                            table +='<td>' + '</td>'
+                        }else{
+                            table +='<td>' + json[k].pharmasyName+ '</td>'
+                        }
+                        var pair = json[k].sells;
+                        alert(pair);
+
+
+                table +='</tr>'
             }
             table += '</tbody>'
             $('table').append(table);
