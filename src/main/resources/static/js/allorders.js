@@ -54,7 +54,7 @@ $(document).ready(function () {
                 table +='</tr>'
             }
             table += '</tbody>'
-            $('table').append(table);
+            $('#allorders').append(table);
         });
 });
 

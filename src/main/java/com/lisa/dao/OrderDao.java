@@ -49,17 +49,6 @@ public class OrderDao {
             "GROUP BY id_client " +
             "ORDER BY totalsales DESC NULLS LAST;";
 
-    public LinkedHashMap<String,BigDecimal> getBestBuyer(){
-        LinkedHashMap<String,BigDecimal> response = new LinkedHashMap<>();
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(GET_BEST_BUYER);
-        for(Map<String,Object> localmap : rows) {
-            Client client = (Client)clientDao.getClient((Integer)localmap.get("id_client"));
-            BigDecimal sum = ((BigDecimal) localmap.get("totalsales"));
-            response.put(client.getName(),sum);
-        }
-        return response;
-    }
-
     public List<Order> getAllorders(){
         List<Order> ordersList = new ArrayList<>();
         Map<Drug,Pair<Integer, BigDecimal>> mapForAdd = new LinkedHashMap<>();
@@ -94,5 +83,16 @@ public class OrderDao {
             count = num;
         }
         return ordersList;
+    }
+
+    public LinkedHashMap<String,BigDecimal> getBestBuyer(){
+        LinkedHashMap<String,BigDecimal> response = new LinkedHashMap<>();
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(GET_BEST_BUYER);
+        for(Map<String,Object> localmap : rows) {
+            Client client = (Client)clientDao.getClient((Integer)localmap.get("id_client"));
+            BigDecimal sum = ((BigDecimal) localmap.get("totalsales"));
+            response.put(client.getName(),sum);
+        }
+        return response;
     }
 }
