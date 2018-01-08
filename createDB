@@ -8,6 +8,12 @@ grant all privileges on database farmacy to dealer;
 /*войти в постгрес под dealer */
 psql -h localhost farmacy dealer; /*password is dealer to (like username) */
 
+
+/*
+start for copy
+*/
+
+
 CREATE TABLE IF NOT EXISTS pharmacist (
  id_pharmacist serial PRIMARY KEY,
  name VARCHAR(45)  NOT NULL UNIQUE,
@@ -190,6 +196,10 @@ insert into
   1
   );
 UPDATE drug_store SET amount = amount - 1 WHERE id_drug = (SELECT id_drug FROM drug where drug_name = 'Levitra');
+
+/*
+END for copy
+*/
 
 
 /* для удаления таблиц */
