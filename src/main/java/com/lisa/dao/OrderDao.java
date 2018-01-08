@@ -38,6 +38,28 @@ public class OrderDao {
             "INNER JOIN order_items ON " +
             "order_t.id_order = order_items.id_order ";
 
+    final String GET_BEST_BUYER = "SELECT id_client, sum(cost) as totalsales " +
+            "FROM " +
+            "( " +
+            "SELECT client.id_client, (order_items.price*order_items.amount)AS cost " +
+            "FROM order_t  " +
+            "INNER JOIN client ON order_t.id_client = client.id_client " +
+            "INNER JOIN order_items ON order_t.id_order = order_items.id_order " +
+            ") sales " +
+            "GROUP BY id_client " +
+            "ORDER BY totalsales DESC NULLS LAST;";
+
+    public LinkedHashMap<String,BigDecimal> getBestBuyer(){
+        LinkedHashMap<String,BigDecimal> response = new LinkedHashMap<>();
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(GET_BEST_BUYER);
+        for(Map<String,Object> localmap : rows) {
+            Client client = (Client)clientDao.getClient((Integer)localmap.get("id_client"));
+            BigDecimal sum = ((BigDecimal) localmap.get("totalsales"));
+            response.put(client.getName(),sum);
+        }
+        return response;
+    }
+
     public List<Order> getAllorders(){
         List<Order> ordersList = new ArrayList<>();
         Map<Drug,Pair<Integer, BigDecimal>> mapForAdd = new LinkedHashMap<>();
