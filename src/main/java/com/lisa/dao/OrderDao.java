@@ -65,12 +65,12 @@ public class OrderDao {
                         .id_order(num)
                         .clientName(client.getName())
                         .pharmasyName(pharmacist.getName())
-                        .sells(mapForAdd)
+                        .sells(new HashMap<>(mapForAdd))
                         .build();
                 ordersList.add(order);
             }else{
                 mapForAdd.put(drugDao.getDrugById((Integer) localmap.get("id_drug")),entryForAdd);
-                ordersList.get(ordersList.size()-1).setSells(mapForAdd);
+                ordersList.get(ordersList.size()-1).getSells().putAll(mapForAdd);
             }
             count = num;
         }
