@@ -33,7 +33,7 @@ $(document).ready(function () {
                         table +='<td>' + json[k].pharmasyName+ '</td>'
                     }
 
-                var map = json[0].sells;
+                var map = json[k].sells;
                 var count = 0;
                 var summ = 0;
                 for(i in map){

@@ -92,7 +92,7 @@ insert into drug (drug_name) values('Lexapro');
 insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Allegra'),15, 500);
 insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Concerta'),10, 45);
 insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Latisse'),100, 181);
-insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Levitra'),28, 15.30);
+insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Levitra'),28, 15);
 insert into drug_store (id_drug,price,amount) values ((SELECT id_drug from drug where drug_name ='Lexapro'),112, 100);
 
 /*
@@ -146,30 +146,14 @@ insert into
   SELECT id_order from order_t WHERE id_client  = (SELECT id_client from client where name ='lisa') AND id_pharmacist = (SELECT id_pharmacist from pharmacist where name = 'saller1') ORDER BY date DESC NULLS LAST LIMIT 1
   ),
   (
-  SELECT id_drug from drug where drug_name = 'Allegra'
+  SELECT id_drug from drug where drug_name = 'Lexapro'
   ),
   (
-  SELECT price from drug_store where id_drug =(SELECT id_drug from drug where drug_name = 'Allegra')
+  SELECT price from drug_store where id_drug =(SELECT id_drug from drug where drug_name = 'Lexapro')
   ),
   10
   );
-UPDATE drug_store SET amount = amount - 10 WHERE id_drug = (SELECT id_drug FROM drug where drug_name = 'Allegra');
-
-insert into
- order_items (id_order,id_drug,price,amount)
-  values (
-  (
-  SELECT id_order from order_t WHERE id_client  = (SELECT id_client from client where name ='lisa') AND id_pharmacist = (SELECT id_pharmacist from pharmacist where name = 'saller1') ORDER BY date DESC NULLS LAST LIMIT 1
-  ),
-  (
-  SELECT id_drug from drug where drug_name = 'Latisse'
-  ),
-  (
-  SELECT price from drug_store where id_drug =(SELECT id_drug from drug where drug_name = 'Latisse')
-  ),
-  15
-  );
-UPDATE drug_store SET amount = amount - 15 WHERE id_drug = (SELECT id_drug FROM drug where drug_name = 'Latisse');
+UPDATE drug_store SET amount = amount - 10 WHERE id_drug = (SELECT id_drug FROM drug where drug_name = 'Lexapro');
 
 /*
 третий заказ
@@ -209,4 +193,4 @@ UPDATE drug_store SET amount = amount - 1 WHERE id_drug = (SELECT id_drug FROM d
 
 
 /* для удаления таблиц */
-drop table client,drug,drug_store,order_items,order_t,pharmacist cascade;
+drop table client,drug,drug_store,order_items,order_t,pharmacist,order_sells cascade;

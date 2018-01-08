@@ -10,10 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by dima on 02.01.18.
@@ -43,7 +40,7 @@ public class OrderDao {
 
     public List<Order> getAllorders(){
         List<Order> ordersList = new ArrayList<>();
-        HashMap<Drug,Pair<Integer, BigDecimal>> mapForAdd = new HashMap<>();
+        Map<Drug,Pair<Integer, BigDecimal>> mapForAdd = new LinkedHashMap<>();
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(GET_ALL_ORDER);
         Integer count = 0;
         Integer num = 100;
@@ -65,12 +62,12 @@ public class OrderDao {
                         .id_order(num)
                         .clientName(client.getName())
                         .pharmasyName(pharmacist.getName())
-                        .sells(new HashMap<>(mapForAdd))
+                        .sells(new LinkedHashMap<>(mapForAdd))
                         .build();
                 ordersList.add(order);
             }else{
                 mapForAdd.put(drugDao.getDrugById((Integer) localmap.get("id_drug")),entryForAdd);
-                ordersList.get(ordersList.size()-1).getSells().putAll(mapForAdd);
+                ordersList.get(ordersList.size()-1).setSells(new LinkedHashMap<>(mapForAdd));
             }
             count = num;
         }
