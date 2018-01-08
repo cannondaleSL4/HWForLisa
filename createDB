@@ -6,7 +6,7 @@ create database farmacy;
 create user dealer with password 'dealer';
 grant all privileges on database farmacy to dealer;
 /*войти в постгрес под dealer */
-psql -h localhost farmacy dealer;
+psql -h localhost farmacy dealer; /*password is dealer to (like username) */
 
 CREATE TABLE IF NOT EXISTS pharmacist (
  id_pharmacist serial PRIMARY KEY,
@@ -210,8 +210,3 @@ UPDATE drug_store SET amount = amount - 1 WHERE id_drug = (SELECT id_drug FROM d
 
 /* для удаления таблиц */
 drop table client,drug,drug_store,order_items,order_t,pharmacist cascade;
-
-
-/*
-and id_pharmacist = (SELECT id_pharmacist from pharmacist where name = 'null' )
-*/

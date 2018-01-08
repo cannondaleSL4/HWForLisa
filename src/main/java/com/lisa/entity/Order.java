@@ -1,10 +1,7 @@
 package com.lisa.entity;
 
 import javafx.util.Pair;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -28,5 +25,6 @@ public class Order {
     private String pharmasyName;
 
     @ElementCollection
+    @Setter
     private Map<Drug,Pair<Integer,BigDecimal>> sells; // first is Integer amount and second is price
 }

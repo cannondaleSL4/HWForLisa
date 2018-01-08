@@ -46,7 +46,7 @@ public class OrderDao {
         HashMap<Drug,Pair<Integer, BigDecimal>> mapForAdd = new HashMap<>();
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(GET_ALL_ORDER);
         Integer count = 0;
-        Integer num = 0;
+        Integer num = 100;
 
         for(Map<String,Object> localmap : rows){
             Pharmacist pharmacist;
@@ -70,6 +70,7 @@ public class OrderDao {
                 ordersList.add(order);
             }else{
                 mapForAdd.put(drugDao.getDrugById((Integer) localmap.get("id_drug")),entryForAdd);
+                ordersList.get(ordersList.size()-1).setSells(mapForAdd);
             }
             count = num;
         }
