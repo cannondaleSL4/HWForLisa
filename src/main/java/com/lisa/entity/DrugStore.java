@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import java.math.BigDecimal;
 
 /**
- * Created by dima on 31.12.17.
+ * Created by  lisa on 31.12.17.
  */
 @Entity
 @Getter

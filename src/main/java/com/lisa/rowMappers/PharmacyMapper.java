@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Created by dima on 02.01.18.
+ * Created by  lisa on 02.01.18.
  */
 public class PharmacyMapper  implements RowMapper {
     @Override

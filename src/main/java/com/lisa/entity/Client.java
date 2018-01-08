@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Created by dima on 31.12.17.
+ * Created by  lisa on 31.12.17.
  */
 @Entity
 @Getter(AccessLevel.PROTECTED)

@@ -1,8 +1,8 @@
 /**
- * Created by dima on 07.01.18.
+ * Created by  lisa on 07.01.18.
  */
 /**
- * Created by dima on 06.01.18.
+ * Created by  lisa on 06.01.18.
  */
 $(document).ready(function () {
     $.getJSON(
