@@ -68,6 +68,11 @@ public class Controller {
         return orderDao.getBestBuyer();
     }
 
+    @RequestMapping("/best/seller")
+    LinkedHashMap<String,BigDecimal> getBestSeller(){
+        return orderDao.getBestSeller();
+    }
+
     @RequestMapping(value ="/sale", method = RequestMethod.POST)
     void sale(){
 
