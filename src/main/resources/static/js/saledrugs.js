@@ -6,7 +6,7 @@ $(document).ready(function () {
         '/drugstore/all',
         function (json) {
             var row_count = 1;
-            var table = '<caption>List of drugs in our farmacy</caption>' +
+            var table = '<form id="customer_sale" ><table class="table"><caption>List of drugs in our farmacy</caption>' +
                 '<thead>' +
                 '<tr>' +
                 '<th scope="col">#</th>' +
@@ -18,7 +18,6 @@ $(document).ready(function () {
                 '</thead>' +
                 '<tbody>';
             for(var k in json){
-                console.log(json[k].drug_name);
                 table += '<tr><th scope="row">'+ (row_count++) + '</th>' + '<td>' + json[k].drug_name + '</td>' +
                     '<td>' + json[k].amount + '</td>' +
                     '<td>' + json[k].price+ '</td>' +
@@ -27,7 +26,7 @@ $(document).ready(function () {
                     '<td>' +'<input type="hidden" name = "drugprice" value ="' + json[k].price + '" /> '+ '</td>' +
                     '</tr>'
             }
-            table += '</tbody>';
-            $('table').append(table);
+            table += '</tbody> </table><input type="submit" value="Submit" /></form>';
+            $('main').append(table);
         });
 });

@@ -3,11 +3,9 @@ package com.lisa.controller;
 import com.lisa.dao.*;
 import com.lisa.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
@@ -74,14 +72,12 @@ public class Controller {
         return orderDao.getBestSeller();
     }
 
-    @RequestMapping(value ="/sale", method = RequestMethod.GET)
-    ModelAndView sale(@RequestParam String[] drugname, @RequestParam String [] drugamont, @RequestParam String[] drugprice){
+    @RequestMapping(value ="/sale", method = RequestMethod.POST)
+    Order sale(@RequestParam String[] drugname, @RequestParam String [] drugamont, @RequestParam String[] drugprice){
         String [] users = new String [2];
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         users[0] = authentication.getName();
-        Order order =  orderDao.getCurrentOrder(drugname,drugamont,drugprice,users);
-        ModelAndView modelAndView = new ModelAndView("/customer/result","order",order);
-        return modelAndView;
+        return   orderDao.getCurrentOrder(drugname,drugamont,drugprice,users);
     }
 
 }
