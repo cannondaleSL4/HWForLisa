@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    alert("here111");
     $("#customer_sale").submit(function(event) {
         alert("dsd");
         event.preventDefault();
@@ -23,3 +24,5 @@ $(document).ready(function() {
         });
     }
 });
+
+// http://javasampleapproach.com/java-integration/integrate-jquery-ajax-post-get-spring-boot-web-service
