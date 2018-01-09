@@ -22,7 +22,7 @@ $(document).ready(function () {
                 table += '<tr><th scope="row">'+ (row_count++) + '</th>' + '<td>' + json[k].drug_name + '</td>' +
                     '<td>' + json[k].amount + '</td>' +
                     '<td>' + json[k].price+ '</td>' +
-                    '<td>' +'<input type="number" value="0" min="0" max="' + max + '"/> '+ '</td>' +
+                    '<td>' +'<input type="number" id="' + json[k].drug_name + '" value="0" min="0" size="10" max="' + json[k].amount + '"/> '+ '</td>' +
                     '</tr>'
             }
             table += '</tbody>';
