@@ -8,7 +8,6 @@ import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -120,7 +119,7 @@ public class OrderDao {
         return response;
     }
 
-    public ModelAndView getCurrentOrder(String [] drugname, String[]dragamount, String []dragprice, String[] users){
+    public Order getCurrentOrder(String [] drugname,String[]dragamount,String []dragprice,String[] users){
         Map<Drug,Pair<Integer,BigDecimal>>temproryMap = new LinkedHashMap<>();
         for(int i=0; i<drugname.length-1;i++){
             if(!dragamount[i].equals("0")){
@@ -134,7 +133,6 @@ public class OrderDao {
                 .pharmasyName(users[1])
                 .sells(temproryMap)
                 .build();
-        return new ModelAndView("");
-        //return order;
+        return order;
     }
 }
