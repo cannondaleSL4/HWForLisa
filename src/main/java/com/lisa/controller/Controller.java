@@ -80,7 +80,7 @@ public class Controller {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         users[0] = authentication.getName();
         Order order =  orderDao.getCurrentOrder(drugname,drugamont,drugprice,users);
-        ModelAndView modelAndView = new ModelAndView("/customer/result.html","order",order);
+        ModelAndView modelAndView = new ModelAndView("/customer/result","order",order);
         return modelAndView;
     }
 
