@@ -1,5 +1,7 @@
 /* стартунть сервис */
 sudo service postgresql start
+/* зайти под админом */
+sudo -u postgres psql postgres
 /* содать базу данных под админом */
 create database farmacy;
 /* создать под админом пользователя - именно его данные будет внесены для подключения к бд */
