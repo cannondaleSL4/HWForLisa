@@ -3,10 +3,8 @@ package com.lisa.controller;
 import com.lisa.dao.*;
 import com.lisa.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpRequest;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
@@ -73,9 +71,9 @@ public class Controller {
         return orderDao.getBestSeller();
     }
 
-    @RequestMapping(value ="/sale", method = RequestMethod.POST)
-    void sale(){
-
+    @RequestMapping(value ="/sale", method = RequestMethod.GET)
+    Order sale(@RequestParam String[] drugname, @RequestParam String [] drugamont,@RequestParam String[] drugprice,@RequestParam String[] users){
+        return orderDao.getCurrentOrder(drugname,drugamont,drugprice,users);
     }
 
 }

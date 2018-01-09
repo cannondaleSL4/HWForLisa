@@ -20,6 +20,7 @@ public class DrugDao {
 
     final String GET_ALL_DRUG = "SELECT id_drug,drug_name FROM drug";
     final String GET_DRUG_BY_ID = "SELECT * FROM drug WHERE id_drug=?";
+    final String GET_BY_NAME = "SELECT * FROM drug WHERE drug_name=?";
 
     public List<Drug> getAllDrug(){
         List<Drug> drugList = new ArrayList<>();
@@ -37,5 +38,9 @@ public class DrugDao {
 
     public Drug getDrugById(Integer id){
         return (Drug) jdbcTemplate.queryForObject(GET_DRUG_BY_ID,new Object[]{id}, new DrugMapper());
+    }
+
+    public Drug getByName(String name){
+        return (Drug) jdbcTemplate.query(GET_BY_NAME,new Object[]{name},new DrugMapper());
     }
 }
