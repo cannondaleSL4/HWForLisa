@@ -41,6 +41,6 @@ public class DrugDao {
     }
 
     public Drug getByName(String name){
-        return (Drug) jdbcTemplate.query(GET_BY_NAME,new Object[]{name},new DrugMapper());
+        return (Drug) jdbcTemplate.queryForObject(GET_BY_NAME,new Object[]{name},new DrugMapper());
     }
 }

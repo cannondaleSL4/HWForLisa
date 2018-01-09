@@ -4,6 +4,8 @@ import com.lisa.dao.*;
 import com.lisa.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -72,7 +74,11 @@ public class Controller {
     }
 
     @RequestMapping(value ="/sale", method = RequestMethod.GET)
-    Order sale(@RequestParam String[] drugname, @RequestParam String [] drugamont,@RequestParam String[] drugprice,@RequestParam String[] users){
+    Order sale(@RequestParam String[] drugname, @RequestParam String [] drugamont,@RequestParam String[] drugprice){
+        String [] users = new String [2];
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        users[0] = authentication.getName();
+
         return orderDao.getCurrentOrder(drugname,drugamont,drugprice,users);
     }
 
