@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by  lisa on 02.01.18.
@@ -48,7 +49,7 @@ public class OrderDao {
             ") sales " +
             "GROUP BY id_client " +
             "ORDER BY totalsales DESC NULLS LAST;";
-    
+
     final String GET_BEST_SELLER = "SELECT id_pharmacist, sum(cost) as totalsales " +
             "FROM " +
             "( " +
@@ -62,40 +63,34 @@ public class OrderDao {
             "ORDER BY totalsales DESC NULLS LAST;";
 
     public List<Order> getAllorders(){
-        List<Order> ordersList = new ArrayList<>();
-        Map<Drug,Pair<Integer, BigDecimal>> mapForAdd = new LinkedHashMap<>();
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(GET_ALL_ORDER);
-        Integer count = 0;
-        Integer num = 100;
-
-        for(Map<String,Object> localmap : rows){
-            Pharmacist pharmacist;
-            Client client;
-            Pair<Integer,BigDecimal> entryForAdd;
-            num = (Integer) localmap.get("id_order");
-
-            pharmacist = (Pharmacist)pharmacistDao.getPharmasist((Integer)localmap.get("id_pharmacist"));
-            client = (Client)clientDao.getClient((Integer)localmap.get("id_client"));
-            entryForAdd = new Pair<Integer,BigDecimal>((Integer)localmap.get("amount"),(BigDecimal) localmap.get("price"));
-
-            if(!count.equals(num)){
-                mapForAdd.clear();
-                mapForAdd.put(drugDao.getDrugById((Integer) localmap.get("id_drug")),entryForAdd);
-                Order order = Order.builder()
-                        .id_order(num)
-                        .clientName(client.getName())
-                        .pharmasyName(pharmacist.getName())
-                        .sells(new LinkedHashMap<>(mapForAdd))
-                        .build();
-                ordersList.add(order);
-            }else{
-                mapForAdd.put(drugDao.getDrugById((Integer) localmap.get("id_drug")),entryForAdd);
-                ordersList.get(ordersList.size()-1).setSells(new LinkedHashMap<>(mapForAdd));
-            }
-            count = num;
-        }
-        return ordersList;
+        Map<Integer, List<Map<String, Object>>> mapByOrder = rows.stream().collect(Collectors.groupingBy(m -> (Integer) m.get("id_order")));
+        return mapByOrder.entrySet().stream().map(Map.Entry::getValue).map(this::convertToOrder).collect(Collectors.toList());
     }
+
+    private Order convertToOrder(List<Map<String, Object>> list) {
+        Map<String, Object> map = list.get(0);
+        Map<Drug, Pair<Integer,BigDecimal>> map2 = new TreeMap<>(convertToDrugMap(list));
+        Integer num = (Integer) map.get("id_order");
+        Pharmacist pharmacist = (Pharmacist)pharmacistDao.getPharmasist((Integer)map.get("id_pharmacist"));
+        Client client = (Client)clientDao.getClient((Integer)map.get("id_client"));
+        return Order.builder()
+                .id_order(num)
+                .clientName(client.getName())
+                .pharmasyName(pharmacist.getName())
+                .sells(map2)
+                .build();
+    }
+
+    private Map<Drug, Pair<Integer,BigDecimal>> convertToDrugMap(List<Map<String, Object>> list) {
+        return list.stream().collect(Collectors.toMap(m -> drugDao.getDrugById((Integer) m.get("id_drug")), this::convertToPair));
+    }
+
+    private Pair<Integer,BigDecimal> convertToPair(Map<String, Object> map) {
+        return new Pair<Integer,BigDecimal>((Integer) map.get("amount"),(BigDecimal) map.get("price"));
+    }
+
+
 
     public LinkedHashMap<String,BigDecimal> getBestBuyer(){
         LinkedHashMap<String,BigDecimal> response = new LinkedHashMap<>();

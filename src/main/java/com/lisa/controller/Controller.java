@@ -72,7 +72,7 @@ public class Controller {
         return orderDao.getBestSeller();
     }
 
-    @RequestMapping(value ="/sale", method = RequestMethod.POST)
+    @RequestMapping(value ="/sale", method = RequestMethod.GET)
     Order sale(@RequestParam String[] drugname, @RequestParam String [] drugamont, @RequestParam String[] drugprice){
         String [] users = new String [2];
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

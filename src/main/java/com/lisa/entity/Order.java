@@ -10,12 +10,12 @@ import java.util.Map;
 /**
  * Created by  lisa on 02.01.18.
  */
-@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "order_t")
+@Data
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
