@@ -1,5 +1,6 @@
 function result() {
-    $('button[type=submit]').click(function(event) {
+
+    $("#customerForm").submit(function(event) {
         e.preventDefault();
         alert("tettete");
         // event.preventDefault();
