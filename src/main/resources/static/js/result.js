@@ -1,57 +1,71 @@
-$(document).ready(function() {
-    before();
-    $("#customer_sale").submit(function(event) {
-        event.preventDefault();
-        ajaxPost();
+function result() {
+    $('button[type=submit]').click(function(event) {
+        e.preventDefault();
+        alert("tettete");
+        // event.preventDefault();
+        // $.ajax({
+        //     type : "POST",
+        //     contentType : "application/json",
+        //     url : window.location +"/sale",
+        //     data : JSON.stringify(formData),
+        //     dataType : 'json',
+        //     success : function(json) {
+        //         $('main').empty();
+        //         var row_count = 1;
+        //         var table = '<caption>All orders</caption>' +
+        //             '<thead>' +
+        //             '<tr>' +
+        //             '<th scope="col">#</th>' +
+        //             '<th scope="col">Number of order</th>' +
+        //             '<th scope="col">Client</th>' +
+        //             '<th scope="col">Pharmacist</th>' +
+        //             '<th scope="col">Drug\'s name</th>' +
+        //             '<th scope="col">Amount</th>' +
+        //             '<th scope="col">Price</th>' +
+        //             '<th scope="col">Summ</th>'+
+        //             '</tr>' +
+        //             '</thead>' +
+        //             '<tbody>'
+        //         for(var k in json){
+        //             table += '<tr><th scope="row">'+ (row_count++) + '</th>' +
+        //                 '<td>' + json[k].id_order + '</td>' +
+        //                 '<td>' + json[k].clientName + '</td>'
+        //             if(json[k].pharmasyName == 'default'){
+        //                 table +='<td>' + '</td>'
+        //             }else{
+        //                 table +='<td>' + json[k].pharmasyName+ '</td>'
+        //             }
+        //
+        //             var map = json[k].sells;
+        //             var count = 0;
+        //             var summ = 0;
+        //             for(i in map){
+        //                 if (count !=0 ){
+        //                     summ += map[i].key * map[i].value;
+        //                     table +='</tr><tr><td></td><td></td><td></td><td></td>'+'<td>' +i.split(/'/)[1] + '<td>' +map[i].key+ '</td><td>' +map[i].value +'</td><td>'+(map[i].key * map[i].value)+'</td>';
+        //                 }else{
+        //                     summ += map[i].key * map[i].value;
+        //                     table +='<td>' +i.split(/'/)[1] + '<td>' +map[i].key+ '</td><td>' +map[i].value +'</td><td>'+(map[i].key * map[i].value)+'</td>';
+        //                 }
+        //
+        //                 if(count == Object.keys(map).length - 1){
+        //                     table +='</tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>' +summ + '</td>';
+        //                 }
+        //                 count++;
+        //             }
+        //
+        //             table +='</tr>'
+        //         }
+        //         table += '</tbody>'
+        //         $('main').append(table);
+        //     },
+        //     error : function(e) {
+        //         alert("Error!")
+        //         console.log("ERROR: ", e);
+        //     }
+        // });
     });
 
-    function before() {
-        $.getJSON(
-            '/drugstore/all',
-            function (json) {
-                var row_count = 1;
-                var table = '<form id="customer_sale"  method="GET" action="/sale"><table class="table"><caption>List of drugs in our farmacy</caption>' +
-                    '<thead>' +
-                    '<tr>' +
-                    '<th scope="col">#</th>' +
-                    '<th scope="col">Drug\'s name</th>' +
-                    '<th scope="col">Amount</th>' +
-                    '<th scope="col">Price</th>' +
-                    '<th scope="col">Amount for sale</th>' +
-                    '</tr>' +
-                    '</thead>' +
-                    '<tbody>';
-                for(var k in json){
-                    table += '<tr><th scope="row">'+ (row_count++) + '</th>' + '<td>' + json[k].drug_name + '</td>' +
-                        '<td>' + json[k].amount + '</td>' +
-                        '<td>' + json[k].price+ '</td>' +
-                        '<td>' +'<input type="number" name = "drugamont"  value="0" min="0" size="10" max="' + json[k].amount + '"/> '+ '</td>' +
-                        '<td>' +'<input type="hidden" name = "drugname" value ="' + json[k].drug_name + '" /> '+ '</td>' +
-                        '<td>' +'<input type="hidden" name = "drugprice" value ="' + json[k].price + '" /> '+ '</td>' +
-                        '</tr>'
-                }
-                table += '</tbody> </table><input type="submit" value="Submit" /></form>';
-                $('main').append(table);
-            });
-    }
-
-    function ajaxPost(){
-        $.ajax({
-            type : "GET",
-            contentType : "application/json",
-            url : "/sale",
-            data : JSON.stringify(formData),
-            dataType : 'json',
-            success : function(result) {
-                $('main').empty();
-                alert("result");
-            },
-            error : function(e) {
-                alert("Error!")
-                console.log("ERROR: ", e);
-            }
-        });
-    }
-});
-
 // http://javasampleapproach.com/java-integration/integrate-jquery-ajax-post-get-spring-boot-web-service
+    //https://www.boraji.com/spring-4-mvc-jquery-ajax-form-submit-example
+}
