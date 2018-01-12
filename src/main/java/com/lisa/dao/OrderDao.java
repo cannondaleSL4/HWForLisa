@@ -38,6 +38,15 @@ public class OrderDao {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
 
+        Map<Drug,Pair<Integer,BigDecimal>> temproryMap = new LinkedHashMap<>();
+        for(int i=0; i<drugname.length-1;i++){
+            if(!drugamont[i].equals("0")){
+                Pair<Integer,BigDecimal> pair = new Pair<>(new Integer(drugamont[i]), new BigDecimal(drugprice[i]));
+                Drug drug = drugDao.getByName(drugname[i]);
+                temproryMap.put(drug,pair);
+            }
+        }
+
         Map<String,Object>params = new HashMap<>();
         params.put("id_client",clientDao.getClientByName(userName).getId_client());
         params.put("id_pharmacist",pharmacistDao.getPharmasistByName("default").getId_pharmacist());
@@ -46,15 +55,6 @@ public class OrderDao {
                 .usingGeneratedKeyColumns("id_order")
                 .usingColumns("id_client","id_pharmacist");
         String id = String.valueOf(insertOrder.executeAndReturnKeyHolder(params).getKeys().get("id_order"));
-
-        Map<Drug,Pair<Integer,BigDecimal>> temproryMap = new LinkedHashMap<>();
-        for(int i=0; i<drugname.length-1;i++){
-            if(!drugamont[i].equals("0")){
-                Pair<Integer,BigDecimal> pair = new Pair<>(new Integer(drugamont[i]), new BigDecimal(drugamont[i]));
-                Drug drug = drugDao.getByName(drugname[i]);
-                temproryMap.put(drug,pair);
-            }
-        }
 
         Order order =Order.builder()
                 .id_order(Integer.parseInt(id))
