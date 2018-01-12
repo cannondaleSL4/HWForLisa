@@ -39,7 +39,7 @@ public class OrderDao {
         String userName = authentication.getName();
 
         Map<Drug,Pair<Integer,BigDecimal>> temproryMap = new LinkedHashMap<>();
-        for(int i=0; i<drugname.length-1;i++){
+        for(int i=0; i<drugname.length;i++){
             if(!drugamont[i].equals("0")){
                 Pair<Integer,BigDecimal> pair = new Pair<>(new Integer(drugamont[i]), new BigDecimal(drugprice[i]));
                 Drug drug = drugDao.getByName(drugname[i]);
@@ -78,6 +78,8 @@ public class OrderDao {
                     .withTableName("order_items")
                     .usingGeneratedKeyColumns("id_items")
                     .usingColumns("id_order","id_drug","price","amount");
+
+            insert.execute(params);
 
             jdbcTemplate.update(UPDATE,v.getKey(),k.getId_drug());
         });
