@@ -1,8 +1,12 @@
 function result() {
+    $(document).ready(function(){
+        alert("result1");
+        $("#customerForm").submit(function(event) {
+            event.preventDefault();
+            alert("tettete");
+        });
+    });
 
-    $("#customerForm").submit(function(event) {
-        event.preventDefault();
-        alert("tettete");
         // event.preventDefault();
         // $.ajax({
         //     type : "POST",
@@ -65,8 +69,6 @@ function result() {
         //         console.log("ERROR: ", e);
         //     }
         // });
-    });
-
 // http://javasampleapproach.com/java-integration/integrate-jquery-ajax-post-get-spring-boot-web-service
     //https://www.boraji.com/spring-4-mvc-jquery-ajax-form-submit-example
 }

@@ -6,7 +6,7 @@ $(document).ready(function () {
         '/drugstore/all',
         function (json) {
             var row_count = 1;
-            var table = '<form id="customerForm"><table class="table"><caption>List of drugs in our farmacy</caption>' +
+            var table = '<form id="customerForm" method="post"><table class="table"><caption>List of drugs in our farmacy</caption>' +
                 '<thead>' +
                 '<tr>' +
                 '<th scope="col">#</th>' +
@@ -26,7 +26,7 @@ $(document).ready(function () {
                     '<td>' +'<input type="hidden" name = "drugprice" value ="' + json[k].price + '" /> '+ '</td>' +
                     '</tr>'
             }
-            table += '</tbody> </table><input type="submit" class="Button" id="myButton"></form>';
+            table += '</tbody> </table><input type="submit" value="Buy"></form>';
             $('main').append(table);
         });
 });
