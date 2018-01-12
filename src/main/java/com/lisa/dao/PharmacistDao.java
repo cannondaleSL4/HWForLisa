@@ -19,7 +19,8 @@ public class PharmacistDao {
     JdbcTemplate jdbcTemplate;
 
     final String SELECT_ALL = "SELECT id_pharmacist,name,password,user_group FROM pharmacist";
-    final String getPharmacistByIdStr = "SELECT * FROM pharmacist WHERE id_pharmacist =?";
+    final String GET_PHARMACIST_BY_ID = "SELECT * FROM pharmacist WHERE id_pharmacist =?";
+    final String GET_PHARMACIST_BY_NAME = "SELECT * FROM pharmacist WHERE name =?";
 
     public List<Users> getAllPharmacists(){
         List<Users> pharmacists = new ArrayList<>();
@@ -35,8 +36,12 @@ public class PharmacistDao {
         return pharmacists;
     }
 
-    public Object getPharmasist(Integer id){
-        return jdbcTemplate.queryForObject(getPharmacistByIdStr,new Object[]{id}, new PharmacyMapper());
+    public Pharmacist getPharmacistById(Integer id){
+        return (Pharmacist) jdbcTemplate.queryForObject(GET_PHARMACIST_BY_ID,new Object[]{id}, new PharmacyMapper());
+    }
+
+    public Pharmacist getPharmasistByName(String name){
+        return (Pharmacist) jdbcTemplate.queryForObject(GET_PHARMACIST_BY_NAME,new Object[]{name}, new PharmacyMapper());
     }
 
 }

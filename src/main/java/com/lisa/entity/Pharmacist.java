@@ -19,6 +19,7 @@ import javax.persistence.Id;
 public class Pharmacist extends Users {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter
     private Integer id_pharmacist;
 
     @Builder

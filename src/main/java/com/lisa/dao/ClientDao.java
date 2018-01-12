@@ -19,7 +19,8 @@ public class ClientDao {
     JdbcTemplate jdbcTemplate;
 
     final String SELECT_ALL = "SELECT id_client,name,password,user_group FROM client";
-    final String getClientById = "SELECT * FROM client WHERE id_client =?";
+    final String GET_CLIENT_BY_ID = "SELECT * FROM client WHERE id_client =?";
+    final String GET_CLIENT_BY_NAME = "SELECT * FROM client WHERE name =?";
 
     public List<Users> getAllClients(){
         List<Users> clients = new ArrayList<>();
@@ -35,7 +36,11 @@ public class ClientDao {
         return clients;
     }
 
-    public Client getClient(Integer id){
-        return (Client) jdbcTemplate.queryForObject(getClientById,new Object[]{id}, new ClientMapper());
+    public Client getClientById(Integer id){
+        return (Client) jdbcTemplate.queryForObject(GET_CLIENT_BY_ID,new Object[]{id}, new ClientMapper());
+    }
+
+    public Client getClientByName(String name){
+        return (Client) jdbcTemplate.queryForObject(GET_CLIENT_BY_NAME,new Object[]{name}, new ClientMapper());
     }
 }

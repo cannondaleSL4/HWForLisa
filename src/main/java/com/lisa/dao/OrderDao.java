@@ -1,20 +1,20 @@
 package com.lisa.dao;
 
-import com.lisa.entity.Client;
 import com.lisa.entity.Drug;
 import com.lisa.entity.Order;
-import com.lisa.entity.Pharmacist;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
- * Created by  lisa on 02.01.18.
+ * Created by dima on 12.01.18.
  */
 @Service
 public class OrderDao {
@@ -30,104 +30,45 @@ public class OrderDao {
     @Autowired
     DrugDao drugDao;
 
-    final String GET_ALL_ORDER = "SELECT  order_t.id_order,client.id_client,pharmacist.id_pharmacist,order_items.id_drug,order_items.price,order_items.amount " +
-            "FROM order_t " +
-            "INNER JOIN client ON " +
-            "order_t.id_client = client.id_client " +
-            "INNER JOIN pharmacist ON " +
-            "order_t.id_pharmacist = pharmacist.id_pharmacist " +
-            "INNER JOIN order_items ON " +
-            "order_t.id_order = order_items.id_order ";
-
-    final String GET_BEST_BUYER = "SELECT id_client, sum(cost) as totalsales " +
-            "FROM " +
-            "( " +
-            "SELECT client.id_client, (order_items.price*order_items.amount)AS cost " +
-            "FROM order_t  " +
-            "INNER JOIN client ON order_t.id_client = client.id_client " +
-            "INNER JOIN order_items ON order_t.id_order = order_items.id_order " +
-            ") sales " +
-            "GROUP BY id_client " +
-            "ORDER BY totalsales DESC NULLS LAST;";
-
-    final String GET_BEST_SELLER = "SELECT id_pharmacist, sum(cost) as totalsales " +
-            "FROM " +
-            "( " +
-            "SELECT pharmacist.id_pharmacist, (order_items.price*order_items.amount)AS cost " +
-            "FROM order_t  " +
-            "INNER JOIN pharmacist ON order_t.id_pharmacist = pharmacist.id_pharmacist " +
-            "INNER JOIN order_items ON order_t.id_order = order_items.id_order " +
-            "where pharmacist.id_pharmacist != 1 " +
-            ") sales " +
-            "GROUP BY id_pharmacist " +
-            "ORDER BY totalsales DESC NULLS LAST;";
-
-    public List<Order> getAllorders(){
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(GET_ALL_ORDER);
-        Map<Integer, List<Map<String, Object>>> mapByOrder = rows.stream().collect(Collectors.groupingBy(m -> (Integer) m.get("id_order")));
-        return mapByOrder.entrySet().stream().map(Map.Entry::getValue).map(this::convertToOrder).collect(Collectors.toList());
-    }
-
-    private Order convertToOrder(List<Map<String, Object>> list) {
-        Map<String, Object> map = list.get(0);
-        Map<Drug, Pair<Integer,BigDecimal>> map2 = new TreeMap<>(convertToDrugMap(list));
-        Integer num = (Integer) map.get("id_order");
-        Pharmacist pharmacist = (Pharmacist)pharmacistDao.getPharmasist((Integer)map.get("id_pharmacist"));
-        Client client = (Client)clientDao.getClient((Integer)map.get("id_client"));
-        return Order.builder()
-                .id_order(num)
-                .clientName(client.getName())
-                .pharmasyName(pharmacist.getName())
-                .sells(map2)
-                .build();
-    }
-
-    private Map<Drug, Pair<Integer,BigDecimal>> convertToDrugMap(List<Map<String, Object>> list) {
-        return list.stream().collect(Collectors.toMap(m -> drugDao.getDrugById((Integer) m.get("id_drug")), this::convertToPair));
-    }
-
-    private Pair<Integer,BigDecimal> convertToPair(Map<String, Object> map) {
-        return new Pair<Integer,BigDecimal>((Integer) map.get("amount"),(BigDecimal) map.get("price"));
-    }
+    final String MAKE_SELL = "INSERT into order_t (id_client,id_pharmacist) VALUES ((SELECT id_client FROM client WHERE name =?),(SELECT id_pharmacist FROM pharmacist WHERE name = ?));";
+    final String INSERT_ITEMS  = "INSERT into "+
+            "order_items (id_order,id_drug,price,amount) "+
+            "values(?,?,?)";
 
 
+    public Order makeSells(String[] drugname, String [] drugamont, String[] drugprice){
 
-    public LinkedHashMap<String,BigDecimal> getBestBuyer(){
-        LinkedHashMap<String,BigDecimal> response = new LinkedHashMap<>();
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(GET_BEST_BUYER);
-        for(Map<String,Object> localmap : rows) {
-            Client client = (Client)clientDao.getClient((Integer)localmap.get("id_client"));
-            BigDecimal sum = ((BigDecimal) localmap.get("totalsales"));
-            response.put(client.getName(),sum);
-        }
-        return response;
-    }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
 
-    public LinkedHashMap<String,BigDecimal> getBestSeller(){
-        LinkedHashMap<String,BigDecimal> response = new LinkedHashMap<>();
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(GET_BEST_SELLER);
-        for(Map<String,Object> localmap : rows) {
-            Pharmacist pharmacist = (Pharmacist) pharmacistDao.getPharmasist((Integer)localmap.get("id_pharmacist"));
-            BigDecimal sum = ((BigDecimal) localmap.get("totalsales"));
-            response.put(pharmacist.getName(),sum);
-        }
-        return response;
-    }
+        Map<String,Object>params = new HashMap<>();
+        params.put("id_client",clientDao.getClientByName(userName).getId_client());
+        params.put("id_pharmacist",pharmacistDao.getPharmasistByName("default").getId_pharmacist());
+        SimpleJdbcInsert insertOrder = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("order_t")
+                .usingGeneratedKeyColumns("id_order")
+                .usingColumns("id_client","id_pharmacist");
+        String id = String.valueOf(insertOrder.executeAndReturnKeyHolder(params).getKeys().get("id_order"));
 
-    public Order getCurrentOrder(String [] drugname,String[]dragamount,String []dragprice,String[] users){
-        Map<Drug,Pair<Integer,BigDecimal>>temproryMap = new LinkedHashMap<>();
+
+        int a = 10;
+        Map<Drug,Pair<Integer,BigDecimal>> temproryMap = new LinkedHashMap<>();
         for(int i=0; i<drugname.length-1;i++){
-            if(!dragamount[i].equals("0")){
-                Pair<Integer,BigDecimal> pair = new Pair<>(new Integer(dragamount[i]), new BigDecimal(dragprice[i]));
+            if(!drugamont[i].equals("0")){
+                Pair<Integer,BigDecimal> pair = new Pair<>(new Integer(drugamont[i]), new BigDecimal(drugamont[i]));
                 Drug drug = drugDao.getByName(drugname[i]);
                 temproryMap.put(drug,pair);
             }
         }
+
+
         Order order =Order.builder()
-                .clientName(users[0])
-                .pharmasyName(users[1])
+                .clientName(userName)
                 .sells(temproryMap)
                 .build();
         return order;
     }
+
+
+
 }

@@ -29,6 +29,9 @@ public class Controller {
     PharmacistDao pharmacistDao;
 
     @Autowired
+    ReportDao reportDao;
+
+    @Autowired
     OrderDao orderDao;
 
 
@@ -44,7 +47,7 @@ public class Controller {
 
     @RequestMapping("/pharmacist/{id}")
     Pharmacist getPharmacist(@PathVariable("id")Integer id){
-        return (Pharmacist) pharmacistDao.getPharmasist(id);
+        return pharmacistDao.getPharmacistById(id);
     }
 
     @RequestMapping(value ="/drug/all", method = RequestMethod.GET)
@@ -59,25 +62,27 @@ public class Controller {
 
     @RequestMapping("orders/all")
     List<Order> getAllOrders(){
-        return orderDao.getAllorders();
+        return reportDao.getAllorders();
     }
 
     @RequestMapping("/best/buyer")
     LinkedHashMap<String,BigDecimal> getBestBuyer(){
-        return orderDao.getBestBuyer();
+        return reportDao.getBestBuyer();
     }
 
     @RequestMapping("/best/seller")
     LinkedHashMap<String,BigDecimal> getBestSeller(){
-        return orderDao.getBestSeller();
+        return reportDao.getBestSeller();
     }
 
-    @RequestMapping(value ="/sale", method = RequestMethod.POST)
+    @RequestMapping(value ="/buy", method = RequestMethod.GET)
     Order sale(@RequestParam String[] drugname, @RequestParam String [] drugamont, @RequestParam String[] drugprice){
         String [] users = new String [2];
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         users[0] = authentication.getName();
-        return   orderDao.getCurrentOrder(drugname,drugamont,drugprice,users);
+        //return   orderDao.makeSells(drugname,drugamont,drugprice,users);
+        return orderDao.makeSells(drugname,drugamont,drugprice);
+        //return   orderDao.getCurrentOrder(new String [10],new String [1],new String[10],users);
     }
 
 }

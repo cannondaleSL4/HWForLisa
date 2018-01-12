@@ -3,12 +3,14 @@ function result() {
         $("#customerForm").submit(function(event) {
             event.preventDefault();
             $.ajax({
-                type : "POST",
+                type : "GET",
                 contentType : "application/json",
-                url : window.location +"/sale",
+                url : '/buy',
                 data : $('#customerForm').serialize(),
                 dataType : 'json',
-                success : function(json) {
+                success : function(data) {
+                    console.log(data[0].id_order);
+                    console.log(data.id_order);
                     $('#customerForm').empty();
                     var row_count = 1;
                     var table = '<caption>List of drugs in our farmacy</caption>' +
@@ -25,17 +27,17 @@ function result() {
                         '</tr>' +
                         '</thead>' +
                         '<tbody>'
-                    for(var k in json){
+                    for(var k in data){
                         table += '<tr><th scope="row">'+ (row_count++) + '</th>' +
-                            '<td>' + json[k].id_order + '</td>' +
-                            '<td>' + json[k].clientName + '</td>'
-                        if(json[k].pharmasyName == 'default'){
+                            '<td>' + data[k].id_order + '</td>' +
+                            '<td>' + data[k].clientName + '</td>'
+                        if(data[k].pharmasyName == 'default'){
                             table +='<td>' + '</td>'
                         }else{
-                            table +='<td>' + json[k].pharmasyName+ '</td>'
+                            table +='<td>' + data[k].pharmasyName+ '</td>'
                         }
 
-                        var map = json[k].sells;
+                        var map = data[k].sells;
                         var count = 0;
                         var summ = 0;
                         for(i in map){
@@ -59,7 +61,6 @@ function result() {
                     $('#customerForm').append(table);
                 },
                 error : function(e) {
-                    alert("Error!")
                     console.log("ERROR: ", e);
                 }
             });
