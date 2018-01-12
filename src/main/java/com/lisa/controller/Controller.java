@@ -5,11 +5,13 @@ import com.lisa.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by  lisa on 31.12.17.
@@ -73,6 +75,16 @@ public class Controller {
     @RequestMapping("/best/seller")
     LinkedHashMap<String,BigDecimal> getBestSeller(){
         return reportDao.getBestSeller();
+    }
+
+    @RequestMapping("/users/all")
+    List<String> getCustomerName(){
+        List<Users> clients = clientDao.getAllClients();
+
+        return clients.stream()
+               .map(Users::getName)
+               .map(p -> StringUtils.capitalize(p))
+               .collect((Collectors.toList()));
     }
 
     @RequestMapping(value ="/buy", method = RequestMethod.GET)
