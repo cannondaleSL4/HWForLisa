@@ -22,7 +22,9 @@ public class Order {
     private Integer id_order;
 
     private String clientName;
-    private String pharmasyName;
+
+    @Builder.Default
+    private String pharmasyName = "default";
 
     @ElementCollection
     @Setter

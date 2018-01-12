@@ -11,7 +11,8 @@ function result() {
                 success : function(data) {
                     console.log(data.id_order);
                     console.log(data.id_order);
-                    $('#customerForm').empty();
+                    $('table').empty();
+                    $('#buy').attr("hidden","true");
                     var row_count = 1;
                     var table = '<caption>List of drugs in our farmacy</caption>' +
                         '<thead>' +
@@ -19,7 +20,6 @@ function result() {
                         '<th scope="col">#</th>' +
                         '<th scope="col">Number of order</th>' +
                         '<th scope="col">Client</th>' +
-                        '<th scope="col">Pharmacist</th>' +
                         '<th scope="col">Drug\'s name</th>' +
                         '<th scope="col">Amount</th>' +
                         '<th scope="col">Price</th>' +
@@ -56,7 +56,7 @@ function result() {
                     }
                 table +='</tr>';
                 table += '</tbody>';
-                $('#customerForm').append(table);
+                $('table').append(table);
                 },
                 error : function(e) {
                     console.log("ERROR: ", e);

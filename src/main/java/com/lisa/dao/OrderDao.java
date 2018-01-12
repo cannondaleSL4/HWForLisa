@@ -65,7 +65,7 @@ public class OrderDao {
         return sell(order);
     }
 
-    public Order sell(Order order){
+    private Order sell(Order order){
         Map<Drug,Pair<Integer,BigDecimal>> localMap = new TreeMap<>(order.getSells());
         localMap.forEach((k, v) -> {
             Map<String,Object>params = new HashMap<>();
