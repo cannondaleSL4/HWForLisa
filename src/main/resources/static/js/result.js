@@ -1,7 +1,7 @@
 function result() {
 
     $("#customerForm").submit(function(event) {
-        e.preventDefault();
+        event.preventDefault();
         alert("tettete");
         // event.preventDefault();
         // $.ajax({
