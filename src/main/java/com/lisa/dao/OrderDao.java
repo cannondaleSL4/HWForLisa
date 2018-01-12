@@ -30,13 +30,15 @@ public class OrderDao {
     @Autowired
     DrugDao drugDao;
 
-    final String MAKE_SELL = "INSERT into order_t (id_client,id_pharmacist) VALUES ((SELECT id_client FROM client WHERE name =?),(SELECT id_pharmacist FROM pharmacist WHERE name = ?));";
-    final String INSERT_ITEMS  = "INSERT into "+
-            "order_items (id_order,id_drug,price,amount) "+
-            "values(?,?,?)";
+//    final String MAKE_SELL = "INSERT into order_t (id_client,id_pharmacist) VALUES ((SELECT id_client FROM client WHERE name =?),(SELECT id_pharmacist FROM pharmacist WHERE name = ?));";
+//    final String INSERT_ITEMS  = "INSERT into "+
+//            "order_items (id_order,id_drug,price,amount) "+
+//            "values(?,?,?)";
+//
+//    final String INSERT
 
 
-    public Order makeSells(String[] drugname, String [] drugamont, String[] drugprice){
+    public Order makeBuy(String[] drugname, String [] drugamont, String[] drugprice){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
@@ -50,8 +52,6 @@ public class OrderDao {
                 .usingColumns("id_client","id_pharmacist");
         String id = String.valueOf(insertOrder.executeAndReturnKeyHolder(params).getKeys().get("id_order"));
 
-
-        int a = 10;
         Map<Drug,Pair<Integer,BigDecimal>> temproryMap = new LinkedHashMap<>();
         for(int i=0; i<drugname.length-1;i++){
             if(!drugamont[i].equals("0")){
@@ -61,11 +61,30 @@ public class OrderDao {
             }
         }
 
-
         Order order =Order.builder()
+                .id_order(Integer.parseInt(id))
                 .clientName(userName)
                 .sells(temproryMap)
                 .build();
+
+        return sell(order);
+    }
+
+    public Order sell(Order order){
+        Map<Drug,Pair<Integer,BigDecimal>> localMap = new TreeMap<>(order.getSells());
+        localMap.forEach((k, v) -> {
+            Map<String,Object>params = new HashMap<>();
+            params.put("id_order",order.getId_order());
+            params.put("id_drug",k.getId_drug());
+            params.put("price",v.getKey());
+            params.put("amount",v.getValue());
+
+            SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate)
+                    .withTableName("order_items")
+                    .usingGeneratedKeyColumns("id_items")
+                    .usingColumns("id_order","id_drug","price","amount");
+        });
+
         return order;
     }
 
