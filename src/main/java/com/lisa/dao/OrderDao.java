@@ -30,12 +30,7 @@ public class OrderDao {
     @Autowired
     DrugDao drugDao;
 
-//    final String MAKE_SELL = "INSERT into order_t (id_client,id_pharmacist) VALUES ((SELECT id_client FROM client WHERE name =?),(SELECT id_pharmacist FROM pharmacist WHERE name = ?));";
-//    final String INSERT_ITEMS  = "INSERT into "+
-//            "order_items (id_order,id_drug,price,amount) "+
-//            "values(?,?,?)";
-//
-//    final String INSERT
+    final String UPDATE = "UPDATE drug_store SET amount = amount - ? WHERE id_drug =?;";
 
 
     public Order makeBuy(String[] drugname, String [] drugamont, String[] drugprice){
@@ -83,6 +78,8 @@ public class OrderDao {
                     .withTableName("order_items")
                     .usingGeneratedKeyColumns("id_items")
                     .usingColumns("id_order","id_drug","price","amount");
+
+            jdbcTemplate.update(UPDATE,v.getValue(),k.getId_drug());
         });
 
         return order;
