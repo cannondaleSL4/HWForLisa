@@ -13,7 +13,7 @@ psql -h localhost farmacy dealer; /*password is dealer to (like username) */
 
 /*
 start for copy
-*/
+*/o
 
 
 CREATE TABLE IF NOT EXISTS pharmacist (

@@ -80,9 +80,7 @@ public class Controller {
         String [] users = new String [2];
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         users[0] = authentication.getName();
-        //return   orderDao.makeBuy(drugname,drugamont,drugprice,users);
         return orderDao.makeBuy(drugname,drugamont,drugprice);
-        //return   orderDao.getCurrentOrder(new String [10],new String [1],new String[10],users);
     }
 
 }

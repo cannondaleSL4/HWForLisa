@@ -71,15 +71,15 @@ public class OrderDao {
             Map<String,Object>params = new HashMap<>();
             params.put("id_order",order.getId_order());
             params.put("id_drug",k.getId_drug());
-            params.put("price",v.getKey());
-            params.put("amount",v.getValue());
+            params.put("price",v.getValue());
+            params.put("amount",v.getKey());
 
             SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate)
                     .withTableName("order_items")
                     .usingGeneratedKeyColumns("id_items")
                     .usingColumns("id_order","id_drug","price","amount");
 
-            jdbcTemplate.update(UPDATE,v.getValue(),k.getId_drug());
+            jdbcTemplate.update(UPDATE,v.getKey(),k.getId_drug());
         });
 
         return order;
