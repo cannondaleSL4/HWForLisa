@@ -80,7 +80,6 @@ public class Controller {
     @RequestMapping("/users/all")
     List<String> getCustomerName(){
         List<Users> clients = clientDao.getAllClients();
-
         return clients.stream()
                .map(Users::getName)
                .map(p -> StringUtils.capitalize(p))
