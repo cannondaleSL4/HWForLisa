@@ -16,7 +16,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/customer/result.html");
         registry.addViewController("/employee/index.html");
         registry.addViewController("/employee/sale.html");
-        registry.addViewController("/employee/goodsreceipt.html");
+        registry.addViewController("/employee/addstore.html");
         registry.addViewController("/employee/reports.html");
 
     }

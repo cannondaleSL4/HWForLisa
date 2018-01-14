@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
@@ -92,6 +93,12 @@ public class Controller {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         users[0] = authentication.getName();
         return orderDao.makeBuy(drugname,drugamont,drugprice);
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @ResponseBody
+    ModelAndView addDrugToStore(@RequestParam String[] drugname, @RequestParam String [] drugamont, @RequestParam String[] drugprice){
+        return new ModelAndView("redirect:employee/index.html");
     }
 
 }

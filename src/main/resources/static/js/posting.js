@@ -19,10 +19,11 @@ $(document).ready(function () {
                 '<tbody>'
             for(var k in json){
                 table +=
-                    '<tr><th scope="row">'+ (row_count++) + '</th>' + '<td>' + json[k].drug_name + '</td>' +
-                    '<td><input type="hidden" name = "drugname" value ="' + json[k].drug_name + '" /> '+ '</td>' +
-                    '<td><input type="number" id="amount" name="amount" value="0" min="0" size="10" placeholder="Amount of goods"  required="true" autofocus="true" /></td>' +
-                    '<td></td>' +
+                    '<tr>'+
+                    '<th scope="row">'+ (row_count++) + '</th>' +
+                    '<td><input type="hidden" name = "drugname" value ="' + json[k].drug_name + '" /> ' + json[k].drug_name + '</td>' +
+                    '<td><input type="number" id="amount" name="drugamont" value="0" min="0" size="10" placeholder="Amount of goods"  required="true" autofocus="true" /></td>' +
+                    '<td><input type="hidden" name="drugprice" value="'+json[k].price+'" /></td>' +
                     '</tr>'
 
             }
@@ -33,9 +34,8 @@ $(document).ready(function () {
     $('#addNew').click(function(e){
         var row = '<tr><td>'+(row_count++)+'</td>'+
             '<td><input type="text" name = "drugname" placeholder ="Enter new drug name" /></td>'+
-            '<td><input type="number" name="amount" min="0" size="10" placeholder="Amount of goods"  required="true" autofocus="true" /></td>'+
-            '<td><input type="number" name="price" min="0" size="10" placeholder="Price"  required="true" autofocus="true" /></td></tr>';
+            '<td><input type="number" name="drugamont" min="0" size="10" placeholder="Amount of goods"  required="true" autofocus="true" /></td>'+
+            '<td><input type="number" name="drugprice" min="0" size="10" placeholder="Price"  required="true" autofocus="true" /></td></tr>';
         $('table').append(row);
     });
 });
-//<input type="text" id="username" name="username" class="form-control" placeholder="User name"  required="true" autofocus="true"></input>
