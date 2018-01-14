@@ -56,10 +56,10 @@ public class DrugStroteDao {
                 .withTableName("drug")
                 .usingGeneratedKeyColumns("id_drug")
                 .usingColumns("drug_name");
-        String id = String.valueOf(insert.executeAndReturnKeyHolder(params).getKeys().get("id_drug"));
+        //String id = String.valueOf(insert.executeAndReturnKeyHolder(params).getKeys().get("id_drug"));
+        String id = String.valueOf(insert.executeAndReturnKeyHolder(params).getKeys().get("SCOPE_IDENTITY()"));
 
         params.clear();
-        params.put("drug_name",drugname);
         params.put("id_drug",id);
         params.put("price",drugprice);
         params.put("amount",drugamont);
@@ -67,7 +67,7 @@ public class DrugStroteDao {
         insert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("drug_store")
                 .usingGeneratedKeyColumns("id_drug_store")
-                .usingColumns("drug_name","id_drug","price","amount");
+                .usingColumns("id_drug","price","amount");
         insert.execute(params);
     }
 }

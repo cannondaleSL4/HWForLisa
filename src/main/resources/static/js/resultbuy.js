@@ -32,7 +32,7 @@ function result() {
                         '<td>' + data.id_order + '</td>' +
                         '<td>' + data.clientName + '</td>'
                     if(data.pharmasyName == 'default'){
-                        table +='<td>' + '</td>'
+                        // table +='<td>' + '</td>'
                     }else{
                         table +='<td>' + data.pharmasyName+ '</td>'
                     }
@@ -43,14 +43,14 @@ function result() {
                     for(i in map){
                         if (count !=0 ){
                             summ += map[i].key * map[i].value;
-                            table +='</tr><tr><td></td><td></td><td></td><td></td>'+'<td>' +i.split(/'/)[1] + '<td>' +map[i].key+ '</td><td>' +map[i].value +'</td><td>'+(map[i].key * map[i].value)+'</td>';
+                            table +='</tr><tr><td></td><td></td><td></td>'+'<td>' +i.split(/'/)[1] + '<td>' +map[i].key+ '</td><td>' +map[i].value +'</td><td>'+(map[i].key * map[i].value)+'</td>';
                         }else{
                             summ += map[i].key * map[i].value;
                             table +='<td>' +i.split(/'/)[1] + '<td>' +map[i].key+ '</td><td>' +map[i].value +'</td><td>'+(map[i].key * map[i].value)+'</td>';
                         }
 
                         if(count == Object.keys(map).length - 1){
-                            table +='</tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>' +summ + '</td>';
+                            table +='</tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td>' +summ + '</td>';
                         }
                         count++;
                     }

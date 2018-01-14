@@ -13,6 +13,11 @@
     <!-- Custom styles for this template -->
     <link href="../static/css/justified-nav.css" th:href="@{/css/justified-nav.css}" type="text/css" rel="stylesheet" />
 
+    <script src="../static/js/jquery-3.2.1.min.js" type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <script src="../static/js/alldrugs.js" type="text/javascript" th:src="@{/js/alldrugs.js}"></script>
+    <script src="../static/js/bootstrap.min.js" type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="../static/js/sortable.js" type="text/javascript" th:src="@{/js/sortable.js}"></script>
+
 </head>
 <body>
 
@@ -46,9 +51,10 @@
 
     <main role="main">
         <main role="main">
-            <table class="table">
+            <table class="table" id="myTable">
             </table>
         </main>
+        <script>sortTable()</script>
     </main>
 
     <!-- Site footer -->
@@ -57,8 +63,5 @@
     </footer>
 
 </div>
-<script src="../static/js/jquery-3.2.1.min.js" type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
-<script src="../static/js/alldrugs.js" type="text/javascript" th:src="@{/js/alldrugs.js}"></script>
-<script src="../static/js/bootstrap.min.js" type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 </body>
 </html>

@@ -68,7 +68,8 @@ public class OrderDao {
                 .withTableName("order_t")
                 .usingGeneratedKeyColumns("id_order")
                 .usingColumns("id_client","id_pharmacist");
-        String id = String.valueOf(insertOrder.executeAndReturnKeyHolder(params).getKeys().get("id_order"));
+        String id = String.valueOf(insertOrder.executeAndReturnKeyHolder(params).getKeys().get("SCOPE_IDENTITY()"));
+        //String id = String.valueOf(insertOrder.executeAndReturnKeyHolder(params).getKeys().get("id_order"));
 
         Order order =Order.builder()
                 .id_order(Integer.parseInt(id))

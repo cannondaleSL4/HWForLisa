@@ -10,9 +10,9 @@ $(document).ready(function () {
                 '<thead>' +
                 '<tr>' +
                 '<th scope="col">#</th>' +
-                '<th scope="col">Drug\'s name</th>' +
-                '<th scope="col">Amount</th>' +
-                '<th scope="col">Price</th>' +
+                '<th onclick="sortTable(0)" scope="col">Drug\'s name</th>' +
+                '<th onclick="sortTable(1)" scope="col">Amount</th>' +
+                '<th onclick="sortTable(2)" scope="col">Price</th>' +
                 '</tr>' +
                 '</thead>' +
                 '<tbody>'

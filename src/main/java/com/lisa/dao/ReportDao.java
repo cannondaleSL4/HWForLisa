@@ -30,8 +30,6 @@ public class ReportDao {
     @Autowired
     DrugDao drugDao;
 
-    final String MAKE_SELL = "insert into order_t (id_client=?,id_pharmacist=?) values ((SELECT id_client from client where name ='?'),(SELECT id_pharmacist from pharmacist where name = '?'));";
-
     final String GET_ALL_ORDER = "SELECT  order_t.id_order,client.id_client,pharmacist.id_pharmacist,order_items.id_drug,order_items.price,order_items.amount " +
             "FROM order_t " +
             "INNER JOIN client ON " +
