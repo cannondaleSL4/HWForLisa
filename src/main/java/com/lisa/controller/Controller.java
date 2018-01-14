@@ -3,8 +3,6 @@ package com.lisa.controller;
 import com.lisa.dao.*;
 import com.lisa.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -89,11 +87,15 @@ public class Controller {
     }
 
     @RequestMapping(value ="/buy", method = RequestMethod.GET)
-    Order sale(@RequestParam String[] drugname, @RequestParam String [] drugamont, @RequestParam String[] drugprice){
-        String [] users = new String [2];
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        users[0] = authentication.getName();
+    Order buy(@RequestParam String[] drugname, @RequestParam String [] drugamont, @RequestParam String[] drugprice){
         return orderDao.makeBuy(drugname,drugamont,drugprice);
+    }
+
+    @RequestMapping(value = "/sell", method = RequestMethod.GET)
+    @ResponseBody
+    ModelAndView sell(@RequestParam String[] drugname, @RequestParam String [] drugamont, @RequestParam String[] drugprice,@RequestParam String customername){
+        orderDao.makeSell(drugname,drugamont,drugprice,customername);
+        return new ModelAndView("redirect:employee/reports.html");
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)

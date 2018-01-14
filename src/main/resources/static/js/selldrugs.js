@@ -3,17 +3,15 @@
  */
 
 $(document).ready(function () {
-
     $.getJSON(
         '/users/all',
         function (json) {
-            var select = '<select name="name" form="customerForm">';
+            var select = '<select name="customername" form="customerForm">';
             for(var k in json){
                 select += '<option>' + json[k] + '</option>';
             }
             $('#select').append(select);
         });
-
 
     $.getJSON(
         '/drugstore/all',

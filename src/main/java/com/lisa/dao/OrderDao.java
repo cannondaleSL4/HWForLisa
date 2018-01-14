@@ -3,6 +3,7 @@ package com.lisa.dao;
 import com.lisa.entity.Drug;
 import com.lisa.entity.Order;
 import javafx.util.Pair;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -32,12 +33,22 @@ public class OrderDao {
 
     final String UPDATE = "UPDATE drug_store SET amount = amount - ? WHERE id_drug =?;";
 
+    public void makeSell(String []drugname,String []drugamont,String []drugprice,String customername){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String pharmacistName = authentication.getName();
+        String[] users = {customername.toLowerCase(),pharmacistName};
+        sell(makeOrder(drugname,drugamont,drugprice,users));
+    }
 
     public Order makeBuy(String[] drugname, String [] drugamont, String[] drugprice){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
+        String[] users = {userName,null};
+        return sell(makeOrder(drugname,drugamont,drugprice,users));
+    }
 
+    private Order makeOrder(String[] drugname, String [] drugamont, String[] drugprice,String [] users){
         Map<Drug,Pair<Integer,BigDecimal>> temproryMap = new LinkedHashMap<>();
         for(int i=0; i<drugname.length;i++){
             if(!drugamont[i].equals("0")){
@@ -47,9 +58,12 @@ public class OrderDao {
             }
         }
 
+        String userName = users[0];
+        String phamacistName = StringUtils.isBlank(users[1])?"default":users[1];
+
         Map<String,Object>params = new HashMap<>();
         params.put("id_client",clientDao.getClientByName(userName).getId_client());
-        params.put("id_pharmacist",pharmacistDao.getPharmasistByName("default").getId_pharmacist());
+        params.put("id_pharmacist",pharmacistDao.getPharmasistByName(phamacistName).getId_pharmacist());
         SimpleJdbcInsert insertOrder = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("order_t")
                 .usingGeneratedKeyColumns("id_order")
@@ -59,11 +73,14 @@ public class OrderDao {
         Order order =Order.builder()
                 .id_order(Integer.parseInt(id))
                 .clientName(userName)
+                .pharmasyName(phamacistName)
                 .sells(temproryMap)
                 .build();
 
-        return sell(order);
+        return order;
     }
+
+
 
     private Order sell(Order order){
         Map<Drug,Pair<Integer,BigDecimal>> localMap = new TreeMap<>(order.getSells());

@@ -68,7 +68,6 @@ public class DrugStroteDao {
                 .withTableName("drug_store")
                 .usingGeneratedKeyColumns("id_drug_store")
                 .usingColumns("drug_name","id_drug","price","amount");
-
         insert.execute(params);
     }
 }
