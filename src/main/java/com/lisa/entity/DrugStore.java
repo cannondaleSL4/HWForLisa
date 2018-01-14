@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DrugStore {
+public class DrugStore implements Comparable<DrugStore> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id_drug_store;
@@ -33,5 +33,10 @@ public class DrugStore {
         return String.format(
                 "drug_store[id=%d, drug_name='%s', price='%s', amount='%s']",
                 id_drug_store,drug_name, price, amount);
+    }
+
+    @Override
+    public int compareTo(DrugStore o) {
+        return drug_name.compareTo(o.drug_name);
     }
 }

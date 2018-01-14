@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public class Controller {
     DrugDao drugDao;
 
     @Autowired
-    DrugStroteDao drugStore;
+    DrugStroteDao drugStoreDao;
 
     @Autowired
     PharmacistDao pharmacistDao;
@@ -60,7 +61,7 @@ public class Controller {
 
     @RequestMapping("/drugstore/all")
     List<DrugStore>getAllDrugStore(){
-        return drugStore.getAllDrug();
+        return drugStoreDao.getAllDrug();
     }
 
     @RequestMapping("orders/all")
@@ -98,6 +99,12 @@ public class Controller {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     @ResponseBody
     ModelAndView addDrugToStore(@RequestParam String[] drugname, @RequestParam String [] drugamont, @RequestParam String[] drugprice){
+        HashSet<String> allDrugsName = drugStoreDao.getAllDrug().stream().map(DrugStore::getDrug_name).collect(Collectors.toCollection(HashSet::new));
+        for(int i=0; i< drugname.length;i++){
+            if(!drugamont[i].equals("0"))
+                if (allDrugsName.contains(drugname[i])) drugStoreDao.update(drugname[i],drugamont[i],drugprice[i]);
+                else drugStoreDao.addToStore(drugname[i],drugamont[i],drugprice[i]);
+        }
         return new ModelAndView("redirect:employee/index.html");
     }
 
