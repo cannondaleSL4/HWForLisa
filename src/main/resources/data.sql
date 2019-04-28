@@ -7,6 +7,7 @@ insert into client (name,password,user_group) values ('rome','1234','user');
 insert into pharmacist (name,password,user_group) values ('default','default','employee');
 insert into pharmacist (name,password,user_group) values ('seller1','1234','employee');
 insert into pharmacist (name,password,user_group) values ('seller2','1234','employee');
+insert into pharmacist (name,password,user_group) values ('dima','dima','employee');
 
 insert into drug (drug_name) values('Allegra');
 insert into drug (drug_name) values('Concerta');
